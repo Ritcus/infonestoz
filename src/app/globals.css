@@ -24,3 +24,71 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+@layer base {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+/* Custom scrollbar for categories */
+::-webkit-scrollbar {
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 2px;
+}
+
+.next-image-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+/* Optional: Add hover effect */
+.logo-hover:hover {
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Custom selection style */
+::selection {
+  background: rgba(251, 191, 36, 0.3); /* amber-400 with opacity */
+  color: white;
+}
+
+/* Scrollbar styling (optional) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(251, 191, 36, 0.5);
+  border-radius: 4px;
+}
+
+
+/* Generic post component*/
+@keyframes splash {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(5px);
+    opacity: 0.4;
+  }
+}
+
+@keyframes waterWave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

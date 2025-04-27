@@ -1,9 +1,9 @@
 
 import PostsListing from '@/app/components/postsList/page'
-import { getPostsByCategory } from '@/data/posts'
+import { getPostsByCategory } from '@/app/api/sanity-api/sanityServices'
 
-export default function NewsPosts() {
-  const posts = getPostsByCategory('News')
+export default async function NewsPosts() {
+  const posts = await getPostsByCategory('News')
   
   return (
     <PostsListing 

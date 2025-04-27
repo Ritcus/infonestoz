@@ -7,6 +7,8 @@ import { formatDate } from '@/lib/utils'
 import { FaRegHeart, FaHeart, FaShare } from 'react-icons/fa';
 import PopularPostsSlider from '@/app/components/postSlider/page'
 import { useParams } from 'next/navigation'
+import { urlFor } from '../../../../sanity/lib/image'
+import { PortableText } from 'next-sanity'
 
 
 export default function PostPage() {
@@ -29,81 +31,81 @@ console.log("postId",postId)
 
   if (!post) return <div>Post not found</div>
 
-  const renderContent = () => {
-    // Double-check post.content exists
-    if (!post?.excerpt) {
-      console.error("No content found in post:", post);
-      return <p className="text-gray-500">No content available</p>;
-    }
+  // const renderContent = () => {
+  //   // Double-check post.content exists
+  //   if (!post?.content) {
+  //     console.error("No content found in post:", post);
+  //     return <p className="text-gray-500">No content available</p>;
+  //   }
   
-    // Debug: Log the raw content
-    console.log("Raw content:", post.excerpt);
+  //   // Debug: Log the raw content
+  //   console.log("Raw content:", post.content);
   
-    // Normalize content - handle both {/n} and natural paragraphs
-    let paragraphs = [];
+  //   // Normalize content - handle both {/n} and natural paragraphs
+  //   let paragraphs = [];
     
-    if (typeof post.excerpt === 'string') {
-      // Check if {/n} markers exist
-      if (post.excerpt.includes('{/n}')) {
-        paragraphs = post.excerpt.split('{/n}');
-      } else {
-        // Fallback to splitting by double newlines or single if content is short
-        paragraphs = post.excerpt.split(/\n\n+/);
+  //   if (typeof post.content === 'string') {
+  //     // Check if {/n} markers exist
+  //     if (post.content.includes('{/n}')) {
+  //       paragraphs = post.excerpt.split('{/n}');
+  //     } else {
+  //       // Fallback to splitting by double newlines or single if content is short
+  //       paragraphs = post.excerpt.split(/\n\n+/);
         
-        // If still no paragraphs, split by single newlines
-        if (paragraphs.length <= 1) {
-          paragraphs = post.excerpt.split('\n');
-        }
-      }
+  //       // If still no paragraphs, split by single newlines
+  //       if (paragraphs.length <= 1) {
+  //         paragraphs = post.excerpt.split('\n');
+  //       }
+  //     }
       
-      // Clean up paragraphs
-      paragraphs = paragraphs
-        .map(p => p.trim())
-        .filter(p => p.length > 0);
-    } else {
-      console.error("Post content is not a string:", typeof post.content);
-      return <p className="text-gray-500">Content format invalid</p>;
-    }
+  //     // Clean up paragraphs
+  //     paragraphs = paragraphs
+  //       .map(p => p.trim())
+  //       .filter(p => p.length > 0);
+  //   } else {
+  //     console.error("Post content is not a string:", typeof post.content);
+  //     return <p className="text-gray-500">Content format invalid</p>;
+  //   }
   
     // Debug: Log parsed paragraphs
-    console.log("Parsed paragraphs:", paragraphs);
+    //console.log("Parsed paragraphs:", paragraphs);
   
     // Ensure images array exists
-    const images = Array.isArray(post.images) ? post.images : [];
+    //const images = Array.isArray(post.images) ? post.images : [];
   
-    return paragraphs.map((paragraph, index) => {
+    //return paragraphs.map((paragraph, index) => {
       // Determine if we should show an image (skip index 0 which is featured)
-      const shouldShowImage = images.length > index + 1;
+      //const shouldShowImage = images.length > index + 1;
   
-      return (
-        <div key={`para-${index}`} className="mb-6">
-          {/* Paragraph text */}
-          <p className="text-gray-700 mb-4 whitespace-pre-line">
-            {paragraph}
-          </p>
+  //     return (
+  //       <div key={`para-${index}`} className="mb-6">
+  //         {/* Paragraph text */}
+  //         <p className="text-gray-700 mb-4 whitespace-pre-line">
+  //           {paragraph}
+  //         </p>
   
-          {/* Show image if available */}
-          {shouldShowImage && images[index + 1] && (
-            <div className="my-8 flex justify-center">
-            <div className="relative w-full max-w-2xl h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden">
-              <Image
-                src={images[index + 1]}
-                alt={`${post.title} illustration ${index + 1}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-                onError={(e) => {
-                  console.error("Failed to load image:", images[index + 1]);
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            </div>
-            </div>
-          )}
-        </div>
-      );
-    });
-  };
+  //         {/* Show image if available */}
+  //         {shouldShowImage && images[index + 1] && (
+  //           <div className="my-8 flex justify-center">
+  //           <div className="relative w-full max-w-2xl h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden">
+  //             <Image
+  //               src={images[index + 1]}
+  //               alt={`${post.title} illustration ${index + 1}`}
+  //               fill
+  //               className="object-cover"
+  //               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+  //               onError={(e) => {
+  //                 console.error("Failed to load image:", images[index + 1]);
+  //                 e.currentTarget.style.display = 'none';
+  //               }}
+  //             />
+  //           </div>
+  //           </div>
+  //         )}
+  //       </div>
+  //     );
+  //   });
+  // };
   return (
     <div>
     <div className='bg-white text-gray-900 shadow-md rounded-xl p-5'>
@@ -121,7 +123,7 @@ console.log("postId",postId)
               <svg className="w-3 h-3 mx-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-              <Link href={`/postsCategories/${post.category.toLowerCase()}`} className="ml-1 font-medium hover:text-purple-600">
+              <Link href={`/postsCategories/${post.category?.toLowerCase()}`} className="ml-1 font-medium hover:text-purple-600">
                 {post.category}
               </Link>
             </div>
@@ -156,10 +158,10 @@ console.log("postId",postId)
       </div>
 
       {/* Main Image */}
-      {post.images?.length > 0 && (
+      {1 > 0 && (
         <div className="relative w-full h-96 rounded-lg overflow-hidden mb-12">
           <Image
-            src={post.images[0]}
+            src={urlFor(post.mainImage).url()} 
             alt={post.title}
             fill
             className="object-cover"
@@ -183,7 +185,9 @@ console.log("postId",postId)
 
       {/* Content with interspersed images */}
       <article className="prose lg:prose-xl max-w-none mb-12 bg-grey-800">
-        {renderContent()}
+         <div className="mb-4">
+                            <PortableText value={post.content ?? []}/>
+        </div>
       </article>
 
       {/* Social Actions */}

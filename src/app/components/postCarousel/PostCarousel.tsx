@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { Post } from '@/types/post'
 import { usePostNavigation } from '@/lib/usePostNavigation'
+import { urlFor } from '../../../../sanity/lib/image'
+import { PortableText } from '@portabletext/react'
 
 type PostCarouselProps = {
     posts: Post[];
@@ -14,6 +16,7 @@ export default function PostCarousel({posts}  : PostCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { navigateToPost } = usePostNavigation();
 
+  console.log(posts)
   useEffect(() => {
     if (!posts || posts.length === 0) return;
 
@@ -43,7 +46,7 @@ export default function PostCarousel({posts}  : PostCarouselProps) {
             >
               {/* Background Image */}
               <Image
-                src={post.image}
+                src={urlFor(post.mainImage).url()}
                 alt={post.title}
                 fill
                 className="object-cover"
@@ -57,7 +60,7 @@ export default function PostCarousel({posts}  : PostCarouselProps) {
               {/* Content */}
               <div className="relative z-10 h-full flex flex-col justify-end p-8 sm:p-12 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
                 <div className="max-w-2xl">
-                  <span className="inline-block px-3 py-1 mb-3 text-sm font-medium text-amber-300 bg-black/30 rounded-full backdrop-blur-sm">
+                <span className="inline-block px-3 py-1 mb-3 text-sm font-medium text-amber-300 bg-black/30 rounded-full backdrop-blur-sm">
                     {post.category}
                   </span>
                   <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 hover:text-amber-600 transition-colors" style={{
@@ -66,7 +69,8 @@ export default function PostCarousel({posts}  : PostCarouselProps) {
           onClick={() => navigateToPost(post)}>
                     {post.title}
                   </h1>
-                  <p className="text-gray-200 mb-4">{post.excerpt}</p>
+                  <div className="text-gray-200 mb-4">
+                    <PortableText value={post.content.slice(0,2) ??[] }/></div>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {post.tags?.map(tag => (
                       <span key={tag} className="px-2.5 py-1 text-xs text-amber-100 bg-amber-800/50 rounded-full">

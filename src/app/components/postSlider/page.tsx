@@ -1,10 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-
-import { posts } from '@/data/posts';
 import { Post } from '@/types/post';
 import { usePostNavigation } from '@/lib/usePostNavigation';
+import { urlFor } from '../../../../sanity/lib/image';
+import { getAllPosts } from '@/app/api/sanity-api/sanityServices';
 
 export default function PopularPostsSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,8 +16,9 @@ export default function PopularPostsSlider() {
   useEffect(() => {
     async function fetchPopularPosts() {
       try {
-        const filtered = posts.filter((post) => post.popularity|| 0 > 10);
-        setPopularPosts(filtered);
+        const data = await getAllPosts();
+        const filteredData = data.filter((post) => post.popularity|| 0 > 10);
+        setPopularPosts(filteredData);
       } catch (error) {
         console.error('Error fetching posts:', error);
       } finally {
@@ -26,7 +27,7 @@ export default function PopularPostsSlider() {
     }
     fetchPopularPosts();
     console.log(popularPosts)
-  }, [posts]);
+  }, []);
 
   // Move to next group of 3
   const nextSlide = () => {
@@ -78,7 +79,7 @@ export default function PopularPostsSlider() {
             <div className="bg-white p-4 rounded-lg shadow-md h-full flex flex-col transition-shadow hover:bg-gray-200 transition-colors">
               <div className="relative h-40 w-full mb-3 rounded-md overflow-hidden flex-shrink-0">
                 <Image
-                  src={post.image}
+                  src={urlFor(post.mainImage).url()} 
                   alt={post.title}
                   fill
                   className="object-cover"

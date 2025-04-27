@@ -1,21 +1,33 @@
 'use client'
 import Image from "next/image";
 import Link from 'next/link';
-import { posts } from "@/data/posts";
 import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from 'react-icons/fa'
 import { usePostNavigation } from "@/lib/usePostNavigation";
 import { postCategories } from "@/types/navigation";
 import PostCarousel from "../components/postCarousel/PostCarousel";
+import { urlFor } from "../../../sanity/lib/image";
+import { useEffect, useState } from "react";
+import { PortableText } from '@portabletext/react';
+import { Post } from "@/types/post";
+import { getAllPosts } from "../api/sanity-api/sanityServices";
 
 
 export default function Home() {
+  const [posts, setPosts] = useState<Post[]>([])
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAllPosts()
+      setPosts(data)
+    }
+    fetchData()
+  }, [])
 
   const { navigateToPost } = usePostNavigation();
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section  className="w-full flex-grow-0 h-[100vh] max-h-[800px] relative bg-white text-gray-900 shadow-md rounded-xl">
-        <PostCarousel posts={posts.slice(0, 3)} /> {/* Only use 3 latest posts */}
+        <PostCarousel posts={posts?.slice(0, 3)} /> {/* Only use 3 latest posts */}
       </section >
 
       <div className="flex-grow flex w-full ">    
@@ -28,7 +40,7 @@ export default function Home() {
     <div className="h-2 w-full bg-purple-800"></div>
   </div>
   <div>
-        {posts.slice(0,5).map(post => (
+        {posts?.slice(0,5).map(post => (
           <article key={post.id} className="border-b pb-12 p-5 hover:bg-gray-200 hover:text-amber-600 line-clamp-2 transition-colors" style={{
             cursor: "pointer", // Changes to grab hand cursor
           }}
@@ -37,7 +49,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row gap-6 transition-shadow">
               <div className="md:w-1/3">
                 <Image 
-                  src={post.image} 
+                  src={urlFor(post.mainImage).url()||'/placeholder.png'} 
                   alt={post.title}
                   width={400}
                   height={300}
@@ -46,16 +58,18 @@ export default function Home() {
               </div>
               <div className="md:w-2/3">
                 <h3 className="text-2xl font-bold mb-2">{post.title}</h3>
-                <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                <div className="text-gray-600 mb-4">
+                <PortableText value={post.content.slice(0,3) ?? []}/>
+              </div>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {post.tags.map(tag => (
+                  {post.tags?.map(tag => (
                     <span key={tag} className="bg-gray-200 px-3 py-1 rounded-full text-sm">
                       {tag}
                     </span>
                   ))}
                 </div>
                 <div className="text-sm text-gray-500">
-                  {post.date} · {post.category}
+                {new Date(post.date).toLocaleDateString('en-GB')} · {post.category}
                 </div>
               </div>
             </div>
@@ -109,7 +123,7 @@ export default function Home() {
     <div className="h-2 w-full bg-purple-800"></div>
   </div>
     <div className="space-y-4 p-5">
-      {posts.slice(0, 5).map((post) => (
+      {posts?.slice(0, 5).map((post) => (
         <div key={post.id} className="group" style={{
           cursor: "pointer", // Changes to grab hand cursor
         }}
@@ -119,7 +133,7 @@ export default function Home() {
           >
             <div className="flex-shrink-0 w-16 h-16 relative overflow-hidden rounded-md">
               <Image
-                src={post.image}
+                src={urlFor(post.mainImage).url()}
                 alt={post.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform"

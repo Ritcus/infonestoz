@@ -1,15 +1,22 @@
+import { PortableTextBlock } from "sanity";
+
 export type Post = {
     id: number;
     title: string;
-    excerpt: string;
-    content?: string; // Optional for full article view
+    slug: {
+      _type: 'slug';
+      current: string;
+    };
+    content: PortableTextBlock[]; // Optional for full article view
     category: string;
     date: string;
     tags: string[];
-    image: string;
-    images:string[];
+    mainImage: {
+      asset: {
+        _ref: string;
+      }
+    }
     popularity?:number;
-    slug: string; // Added for clean URLs
   };
   
   // For API responses

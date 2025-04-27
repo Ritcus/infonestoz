@@ -4,8 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Post } from '@/types/post'
 import { usePostNavigation } from '@/lib/usePostNavigation'
-
-
+import { urlFor } from '../../../../sanity/lib/image'
+import { PortableText } from '@portabletext/react'
 
 interface PostsListingProps {
   category: string
@@ -180,7 +180,7 @@ export default function PostsListing({ category, posts: initialPosts }: PostsLis
             }} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow hover:bg-gray-200 transition-colors">
               <div className="h-48 relative">
                 <Image
-                  src={post.image}
+                  src={urlFor(post.mainImage).url()}
                   alt={post.title}
                   fill
                   className="object-cover"
@@ -191,12 +191,14 @@ export default function PostsListing({ category, posts: initialPosts }: PostsLis
                   <span className="text-xs font-medium px-2 py-1 bg-amber-100 text-amber-800 rounded-full">
                     {post.category}
                   </span>
-                  <span className="text-xs text-gray-500">{post.date}</span>
+                  <span className="text-xs text-gray-500">{new Date(post.date).toLocaleDateString('en-GB')}</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2 hover:text-amber-600 transition-colors">
                   <span>{post.title}</span>
                 </h3>
-                <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                <div className="text-gray-600 mb-4">
+                                <PortableText value={post.content.slice(0,3) ?? []}/>
+                              </div>
                 <Link 
                   href={`/posts/${post.id}`}
                   className="text-amber-600 hover:text-amber-800 font-medium inline-flex items-center"

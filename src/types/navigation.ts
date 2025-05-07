@@ -10,16 +10,16 @@ export interface PostCategory {
 }
 
 export const navLinks: NavLink[] = [
-  { href: '/', label: 'Home' },
-  { href: '/welcome', label: 'Welcome', isSpecial: true },
-  { href: '/posts', label: 'Posts' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' }
+  { href: "/", label: "Home" },
+  { href: "/welcome", label: "Welcome", isSpecial: true },
+  { href: "/posts", label: "Posts" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export const postCategories: PostCategory[] = [
-  { name: 'Blog', href: '/postsCategories/blog' },
-  { name: 'Commercial', href: '/postsCategories/commercial' },
-  { name: 'Bargain', href: '/postsCategories/bargain' },
-  { name: 'News', href: '/postsCategories/news' }
+  { name: "Blog", href: "/post/blog" },
+  { name: "Commercial", href: "/post/commercial" },
+  { name: "Bargain", href: "/post/bargain" },
+  { name: "News", href: "/post/news" },
 ];

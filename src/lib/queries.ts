@@ -1,5 +1,5 @@
 export const postsQuery = `*[_type == "post"]{
-    id,
+    _id,
     title,
     slug,
     content,

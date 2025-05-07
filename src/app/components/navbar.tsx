@@ -1,60 +1,62 @@
-'use client'
-import { useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
-import { navLinks, postCategories } from '../../types/navigation'
+"use client"
+
+import { useState, useRef } from "react"
+import Link from "next/link"
+import { FaBars, FaBookOpen, FaChevronDown } from "react-icons/fa"
+import { FaX } from "react-icons/fa6"
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
-import { 
-    FaBars, 
-    FaTimes, 
-    FaChevronDown
-  } from 'react-icons/fa'
+import { usePathname, useRouter } from 'next/navigation'
+import { navLinks, postCategories } from "@/types/navigation"
+import { SearchBox } from "./search-box"
 
-export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isPostsDropdownOpen, setIsPostsDropdownOpen] = useState(false);
-  const pathname= usePathname();
-  const dropdownRef = useRef<HTMLDivElement>(null);
+export function Navbar() {
+  const [sideNavOpen, setSideNavOpen] = useState(false)
+    const [isPostsDropdownOpen, setIsPostsDropdownOpen] = useState(false);
+    const pathname = usePathname();
+    const router = useRouter();
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsPostsDropdownOpen(false)
-      }
-    }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
+    const handleCategoryClick = (href: string) => {
+        router.push(href);
+        setIsPostsDropdownOpen(false);
+        setSideNavOpen(false);
+      };
 
   return (
-    <header className="bg-gradient-to-r from-indigo-900 to-purple-800 shadow-lg relative">
-    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-10">
-      <div className="flex justify-between items-center h-auto">
-        {/* Logo */}
-        <div className="flex-shrink-0 pl-4 p-3">
-        <Link href="/">
-          <Image
-            src="/images/logo1.png"
-            alt="InfoNest"
-            width={120}
-            height={10}
-            className="h-20 w-auto hover:opacity-80 transition-opacity duration-200"
-            // Maintain aspect ratio
-            priority // Important for LCP
-          />
-        </Link>
-      </div>
+    <>
+      {/* Header */}
+      <header className="sticky top-0 z-50 w-full border-b bg-purple-900 backdrop-blur supports-[backdrop-filter]:bg-purple-900/95 p-3">
+        <div className="container flex h-16 items-center justify-between">
+          <div className="flex items-center gap-2">
+            {/* Hamburger menu - only visible on mobile */}
+            <button
+              className="text-white hover:bg-purple-800 md:hidden"
+              onClick={() => setSideNavOpen(true)}
+            >
+              <FaBars className="h-5 w-5" />
+              <span className="sr-only">Open menu</span>
+            </button>
+            <Link href="/">
+              <Image
+                src="/images/logo1.png"
+                alt="InfoNest"
+                width={120}
+                height={10}
+                className="h-20 w-auto hover:opacity-80 transition-opacity duration-200"
+                priority
+              />
+            </Link>
+          </div>
 
-       {/* Desktop Navigation */}
-       <nav className="hidden md:flex items-center space-x-2 h-full">
-            {navLinks.map(link => (
+          {/* Desktop navigation - only visible on medium screens and up */}
+          <nav className="hidden md:flex gap-6">
+          {navLinks.map(link => (
               <div key={link.href} className="relative h-full flex items-center">
                 {link.isSpecial ? (
                   <Link
                     href={link.href}
+                    onClick={() => setIsPostsDropdownOpen(false)}
                     className={`relative px-4 py-2 text-sm font-bold rounded-md transition-all duration-300 h-full flex items-center
                       ${
                         pathname === link.href
@@ -63,7 +65,6 @@ export default function Navbar() {
                       }`}
                   >
                     {link.label}
-                    
                   </Link>
                 ) : link.label === 'Posts' ? (
                   <div 
@@ -107,6 +108,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={link.href}
+                    onClick={() => setIsPostsDropdownOpen(false)}
                     className={`relative px-3 py-2 text-sm font-medium rounded-md transition-all duration-300 h-full flex items-center
                       ${
                         pathname === link.href
@@ -128,36 +130,51 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <button 
-            onClick={() => setMobileMenuOpen(true)}
-            className="md:hidden text-amber-200 hover:text-white p-2 rounded-md hover:bg-black/20 transition-colors"
+          <div className="flex items-center gap-4">
+            <SearchBox className="hidden md:flex relative"/>
+          </div>
+        </div>
+      </header>
+
+      {/* Side Navigation - only for mobile */}
+      <div
+        className={`fixed inset-0 z-50 bg-black/50 transition-opacity duration-200 md:hidden ${
+          sideNavOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setSideNavOpen(false)}
+      />
+
+      <div
+        className={`fixed top-0 left-0 z-50 h-full w-[280px] bg-purple-900 shadow-xl transition-transform duration-300 ease-in-out md:hidden ${
+          sideNavOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between p-4 border-b">
+          <div className="flex items-center gap-2">
+            <FaBookOpen className="h-6 w-6" />
+            <span className="text-xl font-bold">InfoNestOz</span>
+          </div>
+          <button
+            onClick={() => setSideNavOpen(false)}
+            className="text-gray-500 hover:bg-gray-100"
           >
-            <span className="sr-only">Open menu</span>
-            <FaBars className="h-6 w-6" />
+            <FaX className="h-5 w-5" />
+            <span className="sr-only">Close menu</span>
           </button>
         </div>
-      </div>
 
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-indigo-900/95 z-50 backdrop-blur-sm">
-          <div className="flex justify-end p-4">
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-amber-200 hover:text-white p-2 rounded-md hover:bg-black/20 transition-colors"
-            >
-              <FaTimes className="h-6 w-6" />
-            </button>
-          </div>
-          <nav className="flex flex-col items-center space-y-8 mt-12">
-            {navLinks.map(link => (
-              <div key={link.href} className="w-full text-center">
+        <nav className="p-5">
+          <div className="space-y-1">
+          {navLinks.map(link => (
+              <div key={link.href} className="w-full text-center p-3">
                 {link.label === 'Posts' ? (
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center" ref={dropdownRef}>
                     <button
-                      onClick={() => setIsPostsDropdownOpen(!isPostsDropdownOpen)}
-                      className={`text-2xl font-medium px-6 py-3 rounded-lg w-64 text-center transition-all duration-300
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsPostsDropdownOpen(!isPostsDropdownOpen);
+                      }}
+                      className={`text-xl font-medium px-6 py-3 rounded-lg w-64 text-center transition-all duration-300
                         ${
                           pathname.startsWith('/posts')
                             ? 'text-white bg-amber-500/20 shadow-lg'
@@ -170,22 +187,18 @@ export default function Navbar() {
                     {isPostsDropdownOpen && (
                       <div className="mt-2 space-y-2">
                         {postCategories.map(category => (
-                          <Link
+                          <button
                             key={category.href}
-                            href={category.href}
-                            onClick={() => {
-                              setIsPostsDropdownOpen(false)
-                              setMobileMenuOpen(false)
-                            }}
-                            className={`block px-4 py-2 text-xl rounded-lg transition-colors w-48
+                            onClick={() => handleCategoryClick(category.href)}
+                            className={`block px-4 py-2 text-l rounded-lg transition-colors w-48 mx-auto
                               ${
                                 pathname === category.href
                                   ? 'bg-amber-100 text-amber-800'
-                                  : 'text-amber-200 hover:bg-black/20'
+                                  : 'text-amber-200 hover:bg-black/20 hover:text-white'
                               }`}
                           >
                             {category.name}
-                          </Link>
+                          </button>
                         ))}
                       </div>
                     )}
@@ -193,8 +206,8 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`text-2xl font-medium px-6 py-3 rounded-lg w-64 text-center transition-all duration-300
+                    onClick={() => setSideNavOpen(false)}
+                    className={`text-xl font-medium px-6 py-3 rounded-lg w-64 text-center transition-all duration-300
                       ${
                         pathname === link.href
                           ? link.isSpecial 
@@ -210,9 +223,12 @@ export default function Navbar() {
                 )}
               </div>
             ))}
-          </nav>
-        </div>
-      )}
-    </header>
+          </div>
+          <div className="mt-6 pt-6 border-t">
+            <SearchBox mobile={true}/>
+          </div>
+        </nav>
+      </div>
+    </>
   )
 }

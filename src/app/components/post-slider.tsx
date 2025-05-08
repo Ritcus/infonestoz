@@ -4,29 +4,32 @@ import Image from "next/image";
 import { Post } from "@/types/post";
 import { usePostNavigation } from "@/lib/usePostNavigation";
 import { urlFor } from "../../../sanity/lib/image";
+import { useGlobalData } from "@/lib/globalData";
+import { postsQuery } from "@/lib/queries";
+import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 
 export default function PopularPostsSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [popularPosts, setPopularPosts] = useState<Post[]>([]);
-  //const popularPosts = posts.filter(post => post.popularity|| 0 > 10).slice(0, 5);
-  const [loading, setLoading] = useState(true);
+  //const [popularPosts, setPopularPosts] = useState<Post[]>([]);
+  const { data: cachedPosts } = useGlobalData<Post[]>(postsQuery);
+  const popularPosts = cachedPosts!.filter(post => post.popularity|| 0 > 10).slice(0, 5);
   const { navigateToPost } = usePostNavigation();
 
-  useEffect(() => {
-    async function fetchPopularPosts() {
-      try {
-        //const data = await getAllPosts();
-        //const filteredData = data.filter((post) => post.popularity|| 0 > 10);
-        setPopularPosts(popularPosts);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchPopularPosts();
-    console.log(popularPosts);
-  }, []);
+  // useEffect(() => {
+  //   async function fetchPopularPosts() {
+  //     try {
+  //       //const data = await getAllPosts();
+  //       //const filteredData = data.filter((post) => post.popularity|| 0 > 10);
+  //       setPopularPosts(popularPosts);
+  //     } catch (error) {
+  //       console.error("Error fetching posts:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  //   fetchPopularPosts();
+  //   console.log(popularPosts);
+  // }, []);
 
   // Move to next group of 3
   const nextSlide = () => {
@@ -43,7 +46,7 @@ export default function PopularPostsSlider() {
     if (popularPosts.length === 0) return;
     const interval = setInterval(() => {
       nextSlide();
-    }, 3000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -58,17 +61,25 @@ export default function PopularPostsSlider() {
 
   const visiblePosts = getVisiblePosts();
 
-  if (loading) return <div className="text-center py-8">Loading...</div>;
   if (popularPosts.length === 0) return null;
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto">
       <div className="text-center mb-8">
+     
         <h3 className="font-bold text-black text-xl sm:text-2xl inline-block px-4">
           Popular Posts
         </h3>
         <div className="h-2 w-full bg-purple-800"></div>
-      </div>
+        <button
+          onClick={prevSlide}
+          className=" md:hidden bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100"
+        >
+          <ArrowBigUp />
+        </button>
+        
+      </div> 
+      
 
       <div className="relative">
         <div className="flex justify-center">
@@ -89,6 +100,7 @@ export default function PopularPostsSlider() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    priority
                   />
                 </div>
                 <h4 className="font-semibold text-lg mb-2 line-clamp-2">
@@ -99,7 +111,7 @@ export default function PopularPostsSlider() {
                     {new Date(post.date).toLocaleDateString()}
                   </span>
                   <span className="text-sm font-medium text-purple-800">
-                    {post.popularity} likes
+                    {post.category}
                   </span>
                 </div>
               </div>
@@ -108,17 +120,26 @@ export default function PopularPostsSlider() {
         </div>
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100"
+          className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100"
         >
           &lt;
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100"
+          className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100"
         >
           &gt;
         </button>
+        <div className="flex justify-center">
+        <button
+          onClick={prevSlide}
+          className="md:hidden absolute bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100"
+        >
+          <ArrowBigDown />
+        </button>
+        </div>
       </div>
+      
     </div>
   );
 }

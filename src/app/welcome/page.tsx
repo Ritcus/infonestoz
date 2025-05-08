@@ -27,7 +27,7 @@ export default function WelcomePage() {
         );
       if (isMobile) {
         setShowPWAInstallPrompt(true);
-        showPWAInstallPrompt; //delete
+        console.log(showPWAInstallPrompt); //delete
       setPosts(posts) //delete
       }
       

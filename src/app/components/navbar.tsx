@@ -43,6 +43,10 @@ export function Navbar() {
                 alt="InfoNest"
                 width={120}
                 height={10}
+                style={{
+                  width: 'auto', // Maintain aspect ratio
+                  height: 'auto' // Maintain aspect ratio
+                }}
                 className="h-20 w-auto hover:opacity-80 transition-opacity duration-200"
                 priority
               />

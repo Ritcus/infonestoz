@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Post } from "@/types/post";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { formatDate } from "@/lib/formatDate";
 import { FaRegHeart, FaHeart, FaShare } from "react-icons/fa";
 import PopularPostsSlider from "@/app/components/post-slider";
@@ -22,11 +22,20 @@ export default function PostPage({
   const { data: cachedPosts } = useGlobalData<Post[]>(postsQuery);
   const post =  cachedPosts?.find((post) => post._id === id);
 
-  const sessionId = sessionStorage.getItem("sessionId");
-  const postLikedKey = `liked_${id}_${sessionId}`;
-  const hasUserLiked = sessionStorage.getItem(postLikedKey) === "true";
-  const [isLiked, setIsLiked] = useState(hasUserLiked);
+  
+  //const hasUserLiked = sessionStorage.getItem(postLikedKey) === "true";
+  const [isLiked, setIsLiked] = useState<boolean>();
+  const [postLikedKey, setpostLikedKey] = useState<string>();
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const sessionId = sessionStorage.getItem("sessionId");
+      setpostLikedKey(`liked_${id}_${sessionId}`);
+      const hasUserLiked = sessionStorage.getItem(postLikedKey!) === "true";
+      setIsLiked(hasUserLiked)
+    }
+  }, []);
+  
   const handleLikeButton = () => {
     const newValue = !isLiked;
     setIsLiked(newValue);
@@ -35,9 +44,9 @@ export default function PostPage({
       ? (post!.popularity || 0) + 1
       : (post!.popularity || 0) - 1;
     if (newValue) {
-      sessionStorage.setItem(postLikedKey, "true");
+      sessionStorage.setItem(postLikedKey!, "true");
     } else {
-      sessionStorage.removeItem(postLikedKey);
+      sessionStorage.removeItem(postLikedKey!);
     }
     mutate(
       postsQuery,

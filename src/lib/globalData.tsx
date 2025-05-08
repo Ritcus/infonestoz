@@ -10,7 +10,7 @@ const fetcher = <T,>(query: string): Promise<T> =>
   client.fetch(query) as Promise<T>;
 
 // Typed hook for global data access
-export function useGlobalData<T = any>(
+export function useGlobalData<T = unknown>(
   query: string | null,
   options?: SWRConfiguration<T>
 ) {
@@ -32,7 +32,7 @@ export function GlobalDataProvider({ children }: GlobalDataProviderProps) {
     <SWRConfig
       value={{
         provider: () => new Map(),
-        fetcher: fetcher as SanityFetcher,
+        fetcher: fetcher as SanityFetcher<unknown>,
         dedupingInterval: 10000,
       }}
     >

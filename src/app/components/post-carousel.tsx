@@ -47,21 +47,7 @@ export function PostCarousels({
       setCurrentSlide((prev) => (prev + 1) % posts!.length);
     }, autoplayInterval);
   };
-
-  // // Navigate to previous slide
-  // const prevSlide = () => {
-  //   setCurrentSlide((prev) => (prev - 1 + posts!.length) % posts!.length);
-  //   // Reset interval when manually changing slides
-  //   startSlideshow();
-  // };
-
-  // // Navigate to next slide
-  // const nextSlide = () => {
-  //   setCurrentSlide((prev) => (prev + 1) % posts!.length);
-  //   // Reset interval when manually changing slides
-  //   startSlideshow();
-  // };
-
+  
   // Go to specific slide
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
@@ -132,6 +118,7 @@ export function PostCarousels({
                     height={550}
                     alt={post.title}
                     className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
+                    priority
                   />
                 </div>
               </div>

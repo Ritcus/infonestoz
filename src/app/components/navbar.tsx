@@ -39,7 +39,7 @@ export function Navbar() {
             </button>
             <Link href="/">
               <Image
-                src="/images/logo1.png"
+                src="/images/Logo1.png"
                 alt="InfoNest"
                 width={120}
                 height={10}

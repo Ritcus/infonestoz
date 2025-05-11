@@ -15,6 +15,7 @@ interface SearchBoxProps {
   placeholder?: string;
   mobile?: boolean;
   initialQuery?: string;
+  closeMenu?: () => void;
 }
 
 export function SearchBox({
@@ -22,6 +23,7 @@ export function SearchBox({
   placeholder = "Search...",
   mobile = false,
   initialQuery = "",
+  closeMenu
 }: SearchBoxProps) {
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -151,6 +153,7 @@ export function SearchBox({
                     );
                     setShowDropdown(false);
                     setSearchQuery("");
+                    closeMenu?.();
                   }}
                 >
                   <span>See all results</span>

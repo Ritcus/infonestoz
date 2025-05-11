@@ -6,6 +6,7 @@ export const postsQuery = `*[_type == "post"]{
     date,
     category,
     tags,
+    isFeatured,
     mainImage,
     popularity
   }`

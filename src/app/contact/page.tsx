@@ -8,6 +8,7 @@ export default function ContactPage() {
     lastName: "",
     email: "",
     question: "",
+    subject:""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -97,6 +98,7 @@ export default function ContactPage() {
                 id="firstName"
                 name="firstName"
                 value={formData.firstName}
+                placeholder="Jimmy"
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
                 required
@@ -114,6 +116,7 @@ export default function ContactPage() {
                 type="text"
                 id="lastName"
                 name="lastName"
+                placeholder="Smith"
                 value={formData.lastName}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
@@ -133,8 +136,26 @@ export default function ContactPage() {
               type="email"
               id="email"
               name="email"
+              placeholder="jimmy.smith@example.com"
               value={formData.email}
               onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="Subject"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Subject
+            </label>
+            <input
+              id="subject"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              placeholder="How can we help you?" 
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
               required
             />
@@ -145,11 +166,12 @@ export default function ContactPage() {
               htmlFor="question"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Your questions...
+              Message
             </label>
             <textarea
               id="question"
               name="question"
+              placeholder="Tell us about your inquiry..."
               rows={4}
               value={formData.question}
               onChange={handleChange}

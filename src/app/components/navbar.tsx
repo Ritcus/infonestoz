@@ -15,13 +15,16 @@ export function Navbar() {
     const pathname = usePathname();
     const router = useRouter();
     const dropdownRef = useRef<HTMLDivElement>(null);
-
+  
+  const closeMobileMenu = () => setSideNavOpen(false)   
 
     const handleCategoryClick = (href: string) => {
         router.push(href);
         setIsPostsDropdownOpen(false);
         setSideNavOpen(false);
       };
+
+
 
   return (
     <>
@@ -155,8 +158,8 @@ export function Navbar() {
       >
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center gap-2">
-            <FaBookOpen className="h-6 w-6" />
-            <span className="text-xl font-bold">InfoNestOz</span>
+            <FaBookOpen className="text-white h-6 w-6" />
+            <span className="text-xl text-white font-bold">InfoNestOz</span>
           </div>
           <button
             onClick={() => setSideNavOpen(false)}
@@ -229,7 +232,7 @@ export function Navbar() {
             ))}
           </div>
           <div className="mt-6 pt-6 border-t">
-            <SearchBox mobile={true}/>
+            <SearchBox mobile={true} closeMenu = {closeMobileMenu}/>
           </div>
         </nav>
       </div>

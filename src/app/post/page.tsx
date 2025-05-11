@@ -13,7 +13,7 @@ export default function Posts(){
     
     return(
         <div>
-            <PostList_Layout posts={posts||[]} />
+            <PostList_Layout category="Commercial"  />
         </div>
     )
 }

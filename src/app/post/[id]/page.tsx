@@ -95,7 +95,7 @@ export default function PostPage({
                   />
                 </svg>
                 <Link
-                  href={`/postsCategories/${post.category?.toLowerCase()}`}
+                  href={`/post/${post.category?.toLowerCase()}`}
                   className="ml-1 font-medium hover:text-purple-600"
                 >
                   {post.category}

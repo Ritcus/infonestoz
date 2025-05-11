@@ -10,27 +10,35 @@ import { postsQuery } from "@/lib/queries";
 import { CategoryFilter } from "./category-filter";
 import { PostCard } from "./post-card";
 import { Pagination } from "./pagination";
+import { TagFilter } from "./tag-filter";
 
 interface PostsListsProps {
   category?: string;
-  posts?: Post[];
+  searchKeywords?: string;
+  tag?:string;
 }
 
-export default function PostList_Layout({ category }: PostsListsProps) {
+export default function PostList_Layout({ category, searchKeywords, tag }: PostsListsProps) {
+  
   const { data: posts } = useGlobalData<Post[]>(postsQuery);
-
+    
   const allCategories = Array.from(
     new Set(posts?.map((post) => post.category))
   );
+
+  const allTags = Array.from(new Set(posts?.flatMap((post) => post.tags || [])));
+
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 12; // 4 columns x 3 rows
 
   // State for filtering and sorting
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchKeywords||"");
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
     category ? [category] : []
   );
+  const [selectedTags, setSelectedTags] = useState<string[]>(() =>
+    tag ? [tag] : [])
 
   const [sortOption, setSortOption] = useState<SortOption>("newest");
 
@@ -41,11 +49,16 @@ export default function PostList_Layout({ category }: PostsListsProps) {
       searchQuery === "" ||
       post.title.toLowerCase().includes(searchQuery.toLowerCase());
 
+
     // Filter by selected categories
     const matchesCategory =
       selectedCategories.length === 0 ||
       selectedCategories.includes(post.category);
-    return matchesSearch && matchesCategory;
+
+    // Filter by selected tags
+    const matchesTags = selectedTags.length === 0 || selectedTags.some((tag) => post.tags && post.tags.includes(tag))
+    
+    return tag ?  matchesSearch && matchesTags :  matchesSearch && matchesCategory
   });
 
   // Sort posts
@@ -80,7 +93,7 @@ export default function PostList_Layout({ category }: PostsListsProps) {
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedCategories, sortOption]);
+  }, [searchQuery, selectedCategories, tag ? selectedTags: null, sortOption]);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -120,15 +133,25 @@ export default function PostList_Layout({ category }: PostsListsProps) {
         <section className="py-12 md:py-16">
           <div className="container px-4 md:px-6">
             {/* Filters and Sorting */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-              <CategoryFilter
+            <div className="flex flex-row justify-between items-start gap-4 mb-8">
+              <div className="flex ">
+              {tag ? (
+                <TagFilter
+                tags={allTags}
+                selectedTags={selectedTags}
+                onTagChange={setSelectedTags}
+              />
+
+              ) : (
+                <CategoryFilter
                 categories={allCategories}
                 selectedCategories={selectedCategories}
                 onCategoryChange={setSelectedCategories}
               />
-
+              )}
+              </div>
               <div className="flex items-center gap-2">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground whitespace-nowrap">
                   Showing{" "}
                   <span className="font-medium">{sortedPosts.length}</span>{" "}
                   articles

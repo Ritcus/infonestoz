@@ -17,12 +17,26 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useGlobalData } from "@/lib/globalData"
 import { postsQuery } from "@/lib/queries"
+import { useRouter } from "next/navigation";
+import { PostCard } from "../components/post-card"
 
 export default function Home() {
 
   const [postsList, setPosts] = useState<Post[]>([]);
   const { data: posts } = useGlobalData<Post[]>(postsQuery)
   const [tagsList, settagsList] = useState<TagsWithCount[]>([]);
+  const router = useRouter();
+
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Would submit:', email); // You'll replace this later
+    setSubscribed(true);
+    setEmail('');
+  };
+
     useEffect(() => {
       const fetchData = async () => {
         if(posts){
@@ -37,7 +51,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">
         {/* Featured Post Carousel */}
-        <PostCarousels posts={postsList?.slice(0, 3)} />
+        <PostCarousels posts={postsList?.filter(f => f.isFeatured).slice(0, 3)} />
 
         {/* Recent Posts */}
         <section className="w-full py-12 md:py-24">
@@ -53,46 +67,8 @@ export default function Home() {
             </div>
 
             <div className="grid gap-6 pt-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-              {postsList?.map((post) => (
-                <Card key={post._id} className="overflow-hidden bg-white text-gray-900 shadow-md rounded-xl">
-                  <CardHeader className="p-0">
-                    <Image
-                      src={urlFor(post.mainImage).url()}
-                      width={500}
-                      height={250}
-                      alt={post.title}
-                      className="aspect-[2/1] w-full object-cover"
-                    />
-                  </CardHeader>
-                  <CardContent className="p-4 pt-6">
-                  <Badge variant="secondary" className="mb-2 bg-purple-100 text-purple-900 hover:bg-purple-200">
-                      {post.category}
-                    </Badge>
-                    <h3 className="text-xl font-bold">{post.title}</h3>
-                    <div className="line-clamp-2 mt-2 text-muted-foreground"> 
-                      <PortableTextRenderer content={toCustomPortableText(post.content)} wordLimit={30} removeImages={true}/></div>
-                    <div className="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        <span>{new Date(post.date).toLocaleDateString('en-GB')}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <User className="h-3 w-3" />
-                        <span>Ritcus Matgau</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="p-4 pt-0">
-                  <Link href={`/post/${post._id}`}>
-                  <Button variant="link" className="px-0 text-purple-900 hover:text-purple-700">                  
-                      Read More
-                      <ChevronRight className="ml-1 h-4 w-4" />
-                      
-                    </Button>
-                    </Link>
-                  </CardFooter>
-                </Card>
-              ))}
+              {postsList?.map((post) =>
+                                <PostCard key={post._id} post={post} />)}
             </div>
           </div>
         </section>
@@ -101,7 +77,7 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Browse by Category</h2>
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Browse by Tags</h2>
                 <p className="mx-auto max-w-[700px] md:text-xl">
                   Find exactly what you&apos;re looking for in our diverse collection of topics
                 </p>
@@ -111,7 +87,12 @@ export default function Home() {
               {tagsList.slice(0,8).map((tag) => (
                 <Link
                   key={tag.name}
-                  href="#"
+                  href={`/tagfilter?t=${encodeURIComponent(tag.name)}`}
+                  onClick={() => 
+                    router.push(
+                      `/tagfilter?t=${encodeURIComponent(tag.name)}`
+                    )
+                  }
                   className="flex flex-col items-center justify-center p-6 rounded-lg text-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600"
                 >
                   <h3 className="text-lg font-medium">{tag.name}</h3>
@@ -123,29 +104,53 @@ export default function Home() {
         </section>
 
         {/* Newsletter */}
-        <section className="w-full py-12 md:py-24">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-              <div className="space-y-4">
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Stay Updated</h2>
-                <p className="text-muted-foreground">
-                  Subscribe to our newsletter to get the latest articles, resources, and insights delivered straight to
-                  your inbox.
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <form className="flex w-full max-w-sm flex-col gap-2 sm:flex-row sm:max-w-md">
-                  <input type="email" placeholder="Enter your email" className="flex-1" />
-                  <Button type="submit" className="bg-purple-900 hover:bg-purple-800">
-                    Subscribe
-                  </Button>
-                </form>
-                <p className="text-xs text-muted-foreground">
-                  By subscribing, you agree to our Terms of Service and Privacy Policy.
-                </p>
-              </div>
-            </div>
-          </div>
+        <section className="w-full py-12 md:py-24 ">
+        <div className="flex flex-col gap-3 p-6 bg-card rounded-lg border">
+      <h3 className="text-lg font-medium">Stay Updated</h3>
+      
+      {subscribed ? (
+        <div className="flex items-center gap-2 text-green-500 ">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="h-5 w-5" 
+            viewBox="0 0 20 20" 
+            fill="currentColor"
+          >
+            <path 
+              fillRule="evenodd" 
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" 
+              clipRule="evenodd" 
+            />
+          </svg>
+          <p>Thanks for subscribing!</p>
+        </div>
+      ) : (
+        <>
+          <form 
+            onSubmit={handleSubmit}
+            className="flex w-full max-w-sm flex-col gap-2 sm:flex-row"
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Your best email"
+              className="flex-1 px-4 py-2 rounded-md border bg-background focus:ring-2 focus:ring-primary/50"
+              required
+            />
+            <Button 
+              type="submit" 
+              className=" hover:bg-primary/90 bg-purple-900"
+            >
+              Subscribe
+            </Button>
+          </form>
+          <p className="text-sm text-muted-foreground">
+            We'll never spam you. Unsubscribe anytime.
+          </p>
+        </>
+      )}
+    </div>
         </section>
       </main>
     </div>

@@ -61,8 +61,7 @@ export function PostCard({ post }: PostCardProps) {
           </div>
         </div>
         <Link
-          onClick={() => navigateToPost(post)}
-          href={""}
+          href={`/post/${post._id}`}
           className="hover:text-purple-900 transition-colors"
         >
           <h3 className="text-xl font-bold">{post.title}</h3>
@@ -91,7 +90,7 @@ export function PostCard({ post }: PostCardProps) {
           asChild
           className="px-0 text-purple-900 hover:text-purple-700"
         >
-          <Link onClick={() => navigateToPost(post)} href={""}>
+          <Link  href={`/post/${post._id}`}>
             Read More
             <ChevronRight className="ml-1 h-4 w-4" />
           </Link>

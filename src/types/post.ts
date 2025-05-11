@@ -11,6 +11,7 @@ export type Post = {
   category: string;
   date: string;
   tags: string[];
+  isFeatured: boolean;
   mainImage: {
     asset: {
       _ref: string;

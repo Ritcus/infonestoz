@@ -11,6 +11,7 @@ import {
 } from "../../../sanity/lib/portableTextWithSlicer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 interface PostCarouselProps {
   posts?: Post[];
@@ -100,10 +101,12 @@ export function PostCarousels({
                       </div>
                     </div>
                     <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                      <Link href={`/post/${post._id}`}>
                       <Button className="bg-purple-900 hover:bg-purple-800">
                         Read Article
                         <ChevronRight className="ml-2 h-4 w-4" />
                       </Button>
+                      </Link>
                       <Button
                         variant="outline"
                         className="border-purple-900 text-purple-900 hover:bg-purple-100"

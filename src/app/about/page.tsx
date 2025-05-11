@@ -44,7 +44,7 @@ export default function AboutPage() {
                   productivity, and business.
                 </p>
                 <p className="text-lg text-gray-700 mb-6">
-                  Free from corporate influence, we explore topics with depth and nuance, always putting our readers'
+                  Free from corporate influence, we explore topics with depth and nuance, always putting our readers&apos;
                   interests first.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">
@@ -113,7 +113,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-purple-900">Editorial Integrity</h3>
                 <p className="text-gray-700">
-                  We maintain strict editorial independence. Our opinions are our own, and we're transparent about our
+                  We maintain strict editorial independence. Our opinions are our own, and we&apos;re transparent about our
                   processes and relationships.
                 </p>
               </div>
@@ -210,17 +210,17 @@ export default function AboutPage() {
               <div className="flex flex-wrap justify-center gap-6 mt-12">
                 <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl max-w-xs">
                   <p className="italic text-purple-100">
-                    "We don't chase trends—we explore ideas that stand the test of time."
+                  &quot;We don&apos;t chase trends—we explore ideas that stand the test of time.&quot;
                   </p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl max-w-xs">
                   <p className="italic text-purple-100">
-                    "Our success is measured by the value we provide, not the clicks we generate."
+                  &quot;Our success is measured by the value we provide, not the clicks we generate.&quot;
                   </p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl max-w-xs">
                   <p className="italic text-purple-100">
-                    "We believe in the power of words to change perspectives and inspire action."
+                  &quot;We believe in the power of words to change perspectives and inspire action.&quot;
                   </p>
                 </div>
               </div>
@@ -235,9 +235,9 @@ export default function AboutPage() {
               <div className="inline-block p-3 bg-purple-100 rounded-full mb-6">
                 <MessageCircle className="h-8 w-8 text-purple-900" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-purple-900">Let's Connect</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-purple-900">Let&apos;s Connect</h2>
               <p className="text-xl text-gray-700 mb-8">
-              If you'd like to be considered for our business directory or have your company featured for review, please feel free to contact us.
+              If you&apos;d like to be considered for our business directory or have your company featured for review, please feel free to contact us.
               </p>
               <Button asChild size="lg" className="bg-purple-900 hover:bg-purple-800 text-white">
                 <Link href="/contact" className="flex items-center">

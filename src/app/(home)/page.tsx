@@ -1,20 +1,11 @@
 "use client"
 import Link from "next/link"
-import Image from "next/image"
 import { PostCarousels } from "../components/post-carousel"
-import { ChevronRight, Calendar, User } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Post } from "@/types/post";
-import { urlFor } from "../../../sanity/lib/image";
-import { PortableTextRenderer, toCustomPortableText } from "../../../sanity/lib/portableTextWithSlicer";
 import getUniqueTags from "../../lib/getUniqueTags"
 import { TagsWithCount } from "@/types/TagsWithCount";
-import { Card,
-  CardContent,
-  CardFooter,
-  CardHeader, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { useGlobalData } from "@/lib/globalData"
 import { postsQuery } from "@/lib/queries"
 import { useRouter } from "next/navigation";
@@ -146,7 +137,7 @@ export default function Home() {
             </Button>
           </form>
           <p className="text-sm text-muted-foreground">
-            We'll never spam you. Unsubscribe anytime.
+            We&apos;ll never spam you. Unsubscribe anytime.
           </p>
         </>
       )}

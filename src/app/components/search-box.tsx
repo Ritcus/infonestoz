@@ -6,7 +6,6 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FaChevronRight, FaSearch } from "react-icons/fa";
 import { Post } from "@/types/post";
-import { usePostNavigation } from "@/lib/usePostNavigation";
 import { useGlobalData } from "@/lib/globalData";
 import { postsQuery } from "@/lib/queries";
 
@@ -23,7 +22,7 @@ export function SearchBox({
   placeholder = "Search...",
   mobile = false,
   initialQuery = "",
-  closeMenu
+  closeMenu,
 }: SearchBoxProps) {
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -33,14 +32,10 @@ export function SearchBox({
   const searchBoxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { navigateToPost } = usePostNavigation();
-
-  // Update search query when initialQuery changes
   useEffect(() => {
     setSearchQuery(initialQuery);
   }, [initialQuery]);
 
-  // Filter search results as user types
   useEffect(() => {
     if (!searchQuery.trim()) {
       setSearchResults([]);
@@ -56,7 +51,6 @@ export function SearchBox({
     setSearchResults(results);
   }, [searchQuery]);
 
-  // Handle click outside to close dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -73,11 +67,9 @@ export function SearchBox({
     };
   }, []);
 
-  // Handle form submission for full search
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Navigate to the search page with the query
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setShowDropdown(false);
     }
@@ -127,7 +119,7 @@ export function SearchBox({
                   key={post._id}
                   className="px-4 py-2 hover:bg-purple-50 cursor-pointer"
                   onClick={() => {
-                    navigateToPost(post);
+                    router.push(`/post/${post._id}`);
                     setShowDropdown(false);
                     setSearchQuery("");
                   }}
@@ -142,7 +134,7 @@ export function SearchBox({
                   </div>
                 </div>
               ))}
-            {/* See more link */}
+
             {
               <div className="border-t border-gray-100 mt-1">
                 <button

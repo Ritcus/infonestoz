@@ -2,36 +2,20 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Post } from "@/types/post";
-import { usePostNavigation } from "@/lib/usePostNavigation";
 import { urlFor } from "../../../sanity/lib/image";
 import { useGlobalData } from "@/lib/globalData";
 import { postsQuery } from "@/lib/queries";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function PopularPostsSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  //const [popularPosts, setPopularPosts] = useState<Post[]>([]);
+  const router = useRouter();
   const { data: cachedPosts } = useGlobalData<Post[]>(postsQuery);
-  const popularPosts = cachedPosts!.filter(post => post.popularity|| 0 > 10).slice(0, 5);
-  const { navigateToPost } = usePostNavigation();
+  const popularPosts = cachedPosts!
+    .filter((post) => post.popularity || 0 > 10)
+    .slice(0, 5);
 
-  // useEffect(() => {
-  //   async function fetchPopularPosts() {
-  //     try {
-  //       //const data = await getAllPosts();
-  //       //const filteredData = data.filter((post) => post.popularity|| 0 > 10);
-  //       setPopularPosts(popularPosts);
-  //     } catch (error) {
-  //       console.error("Error fetching posts:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  //   fetchPopularPosts();
-  //   console.log(popularPosts);
-  // }, []);
-
-  // Move to next group of 3
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 3) % popularPosts.length);
   };
@@ -66,7 +50,6 @@ export default function PopularPostsSlider() {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto">
       <div className="text-center mb-8">
-     
         <h3 className="font-bold text-black text-xl sm:text-2xl inline-block px-4">
           Popular Posts
         </h3>
@@ -77,9 +60,7 @@ export default function PopularPostsSlider() {
         >
           <ArrowBigUp />
         </button>
-        
-      </div> 
-      
+      </div>
 
       <div className="relative">
         <div className="flex justify-center">
@@ -88,9 +69,11 @@ export default function PopularPostsSlider() {
               <div
                 key={`${post._id}-${index}`}
                 className="cursor-pointer bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all hover:bg-gray-50"
-                onClick={() => navigateToPost(post)}
+                onClick={() => {
+                  router.push(`/post/${post._id}`);
+                }}
                 style={{
-                  cursor: "pointer", // Changes to grab hand cursor
+                  cursor: "pointer",
                 }}
               >
                 <div className="relative h-48 w-full mb-4 rounded-md overflow-hidden">
@@ -131,15 +114,14 @@ export default function PopularPostsSlider() {
           &gt;
         </button>
         <div className="flex justify-center">
-        <button
-          onClick={prevSlide}
-          className="md:hidden absolute bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100"
-        >
-          <ArrowBigDown />
-        </button>
+          <button
+            onClick={prevSlide}
+            className="md:hidden absolute bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100"
+          >
+            <ArrowBigDown />
+          </button>
         </div>
       </div>
-      
     </div>
   );
 }

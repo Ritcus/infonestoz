@@ -1,32 +1,31 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Calendar, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from "@/app/components/ui/card";
+import { Badge } from "@/app/components/ui/badge";
 import { Post } from "@/types/post";
 import { urlFor } from "../../../sanity/lib/image";
 import {
   PortableTextRenderer,
   toCustomPortableText,
 } from "../../../sanity/lib/portableTextWithSlicer";
-import { usePostNavigation } from "@/lib/usePostNavigation";
 
 interface PostCardProps {
   post: Post;
 }
 
 export function PostCard({ post }: PostCardProps) {
-  const { navigateToPost } = usePostNavigation();
   return (
     <Card className="overflow-hidden h-full flex flex-col">
       <CardHeader className="p-0">
-        <Link onClick={() => navigateToPost(post)} href={""}>
+        <Link href={`/post/${post._id}`}>
           <Image
             src={urlFor(post.mainImage).url()}
             width={500}
@@ -90,7 +89,7 @@ export function PostCard({ post }: PostCardProps) {
           asChild
           className="px-0 text-purple-900 hover:text-purple-700"
         >
-          <Link  href={`/post/${post._id}`}>
+          <Link href={`/post/${post._id}`}>
             Read More
             <ChevronRight className="ml-1 h-4 w-4" />
           </Link>

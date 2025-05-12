@@ -11,7 +11,7 @@ export interface PostCategory {
 
 export const navLinks: NavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/welcome", label: "Welcome", isSpecial: true },
+  { href: "/offers-and-money", label: "Offers & Money", isSpecial: true },
   { href: "/posts", label: "Posts" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },

@@ -9,8 +9,8 @@ import {
   PortableTextRenderer,
   toCustomPortableText,
 } from "../../../sanity/lib/portableTextWithSlicer";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/app/components/ui/button";
+import { Badge } from "@/app/components/ui/badge";
 import Link from "next/link";
 
 interface PostCarouselProps {
@@ -48,7 +48,7 @@ export function PostCarousels({
       setCurrentSlide((prev) => (prev + 1) % posts!.length);
     }, autoplayInterval);
   };
-  
+
   // Go to specific slide
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
@@ -102,10 +102,10 @@ export function PostCarousels({
                     </div>
                     <div className="flex flex-col gap-2 min-[400px]:flex-row">
                       <Link href={`/post/${post._id}`}>
-                      <Button className="bg-purple-900 hover:bg-purple-800">
-                        Read Article
-                        <ChevronRight className="ml-2 h-4 w-4" />
-                      </Button>
+                        <Button className="bg-purple-900 hover:bg-purple-800">
+                          Read Article
+                          <ChevronRight className="ml-2 h-4 w-4" />
+                        </Button>
                       </Link>
                       <Button
                         variant="outline"

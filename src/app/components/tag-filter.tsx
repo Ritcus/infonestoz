@@ -1,65 +1,70 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { ChevronDown, X, Tag } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState, useRef, useEffect } from "react";
+import { ChevronDown, X, Tag } from "lucide-react";
+import { Button } from "@/app/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Input } from "@/components/ui/input"
+} from "@/app/components/ui/dropdown-menu";
+import { Badge } from "@/app/components/ui/badge";
+import { Checkbox } from "@/app/components/ui/checkbox";
+import { ScrollArea } from "@/app/components/ui/scroll-area";
+import { Input } from "@/app/components/ui/input";
 
 interface TagFilterProps {
-  tags: string[]
-  selectedTags: string[]
-  onTagChange: (tags: string[]) => void
+  tags: string[];
+  selectedTags: string[];
+  onTagChange: (tags: string[]) => void;
 }
 
 export function TagFilter({ tags, selectedTags, onTagChange }: TagFilterProps) {
-  const [open, setOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const searchInputRef = useRef<HTMLInputElement>(null)
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Focus search input when dropdown opens
   useEffect(() => {
     if (open && searchInputRef.current) {
       setTimeout(() => {
-        searchInputRef.current?.focus()
-      }, 100)
+        searchInputRef.current?.focus();
+      }, 100);
     }
-  }, [open])
+  }, [open]);
 
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
-      onTagChange(selectedTags.filter((t) => t !== tag))
+      onTagChange(selectedTags.filter((t) => t !== tag));
     } else {
-      onTagChange([...selectedTags, tag])
+      onTagChange([...selectedTags, tag]);
     }
-  }
+  };
 
   const clearFilters = () => {
-    onTagChange([])
-    setSearchQuery("")
-  }
+    onTagChange([]);
+    setSearchQuery("");
+  };
 
   const removeTag = (tag: string) => {
-    onTagChange(selectedTags.filter((t) => t !== tag))
-  }
+    onTagChange(selectedTags.filter((t) => t !== tag));
+  };
 
   // Filter tags based on search query
-  const filteredTags = tags.filter((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredTags = tags.filter((tag) =>
+    tag.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="border-purple-200 hover:border-purple-300">
+          <Button
+            variant="outline"
+            className="border-purple-200 hover:border-purple-300"
+          >
             <Tag className="mr-2 h-4 w-4" />
             Tags
             <ChevronDown className="ml-2 h-4 w-4" />
@@ -102,7 +107,9 @@ export function TagFilter({ tags, selectedTags, onTagChange }: TagFilterProps) {
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-muted-foreground py-2 text-center">No tags found</p>
+                <p className="text-sm text-muted-foreground py-2 text-center">
+                  No tags found
+                </p>
               )}
             </div>
           </ScrollArea>
@@ -111,10 +118,19 @@ export function TagFilter({ tags, selectedTags, onTagChange }: TagFilterProps) {
 
           {/* Actions */}
           <div className="p-2 flex justify-between">
-            <Button variant="outline" size="sm" onClick={clearFilters} disabled={selectedTags.length === 0}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={clearFilters}
+              disabled={selectedTags.length === 0}
+            >
               Clear All
             </Button>
-            <Button size="sm" onClick={() => setOpen(false)} className="bg-purple-900 hover:bg-purple-800">
+            <Button
+              size="sm"
+              onClick={() => setOpen(false)}
+              className="bg-purple-900 hover:bg-purple-800"
+            >
               Apply
             </Button>
           </div>
@@ -135,5 +151,5 @@ export function TagFilter({ tags, selectedTags, onTagChange }: TagFilterProps) {
         ))}
       </div>
     </div>
-  )
+  );
 }

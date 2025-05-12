@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { SortSelector, type SortOption } from "./sort-selector";
 import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/components/ui/input";
 import { Post } from "@/types/post";
 import { useGlobalData } from "@/lib/globalData";
 import { postsQuery } from "@/lib/queries";
@@ -15,30 +15,36 @@ import { TagFilter } from "./tag-filter";
 interface PostsListsProps {
   category?: string;
   searchKeywords?: string;
-  tag?:string;
+  tag?: string;
 }
 
-export default function PostList_Layout({ category, searchKeywords, tag }: PostsListsProps) {
-  
+export default function PostList_Layout({
+  category,
+  searchKeywords,
+  tag,
+}: PostsListsProps) {
   const { data: posts } = useGlobalData<Post[]>(postsQuery);
-    
+
   const allCategories = Array.from(
     new Set(posts?.map((post) => post.category))
   );
 
-  const allTags = Array.from(new Set(posts?.flatMap((post) => post.tags || [])));
+  const allTags = Array.from(
+    new Set(posts?.flatMap((post) => post.tags || []))
+  );
 
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 12; // 4 columns x 3 rows
 
   // State for filtering and sorting
-  const [searchQuery, setSearchQuery] = useState(searchKeywords||"");
+  const [searchQuery, setSearchQuery] = useState(searchKeywords || "");
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
     category ? [category] : []
   );
   const [selectedTags, setSelectedTags] = useState<string[]>(() =>
-    tag ? [tag] : [])
+    tag ? [tag] : []
+  );
 
   const [sortOption, setSortOption] = useState<SortOption>("newest");
 
@@ -49,16 +55,19 @@ export default function PostList_Layout({ category, searchKeywords, tag }: Posts
       searchQuery === "" ||
       post.title.toLowerCase().includes(searchQuery.toLowerCase());
 
-
     // Filter by selected categories
     const matchesCategory =
       selectedCategories.length === 0 ||
       selectedCategories.includes(post.category);
 
     // Filter by selected tags
-    const matchesTags = selectedTags.length === 0 || selectedTags.some((tag) => post.tags && post.tags.includes(tag))
-    
-    return tag ?  matchesSearch && matchesTags :  matchesSearch && matchesCategory
+    const matchesTags =
+      selectedTags.length === 0 ||
+      selectedTags.some((tag) => post.tags && post.tags.includes(tag));
+
+    return tag
+      ? matchesSearch && matchesTags
+      : matchesSearch && matchesCategory;
   });
 
   // Sort posts
@@ -93,7 +102,7 @@ export default function PostList_Layout({ category, searchKeywords, tag }: Posts
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedCategories, tag ? selectedTags: null, sortOption]);
+  }, [searchQuery, selectedCategories, tag ? selectedTags : null, sortOption]);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -135,20 +144,19 @@ export default function PostList_Layout({ category, searchKeywords, tag }: Posts
             {/* Filters and Sorting */}
             <div className="flex flex-row justify-between items-start gap-4 mb-8">
               <div className="flex ">
-              {tag ? (
-                <TagFilter
-                tags={allTags}
-                selectedTags={selectedTags}
-                onTagChange={setSelectedTags}
-              />
-
-              ) : (
-                <CategoryFilter
-                categories={allCategories}
-                selectedCategories={selectedCategories}
-                onCategoryChange={setSelectedCategories}
-              />
-              )}
+                {tag ? (
+                  <TagFilter
+                    tags={allTags}
+                    selectedTags={selectedTags}
+                    onTagChange={setSelectedTags}
+                  />
+                ) : (
+                  <CategoryFilter
+                    categories={allCategories}
+                    selectedCategories={selectedCategories}
+                    onCategoryChange={setSelectedCategories}
+                  />
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <p className="text-sm text-muted-foreground whitespace-nowrap">
@@ -201,8 +209,8 @@ export default function PostList_Layout({ category, searchKeywords, tag }: Posts
                 Stay Updated with Our Latest Articles
               </h2>
               <p className="text-muted-foreground mb-6">
-                Join our newsletter and never miss out on new content. We&apos;ll
-                deliver the best articles straight to your inbox.
+                Join our newsletter and never miss out on new content.
+                We&apos;ll deliver the best articles straight to your inbox.
               </p>
               <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
                 <Input

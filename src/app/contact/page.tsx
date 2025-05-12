@@ -8,7 +8,7 @@ export default function ContactPage() {
     lastName: "",
     email: "",
     question: "",
-    subject:""
+    subject: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -155,7 +155,7 @@ export default function ContactPage() {
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              placeholder="How can we help you?" 
+              placeholder="How can we help you?"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500"
               required
             />

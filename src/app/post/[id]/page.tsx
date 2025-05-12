@@ -20,22 +20,21 @@ export default function PostPage({
   const { id } = use(params);
 
   const { data: cachedPosts } = useGlobalData<Post[]>(postsQuery);
-  const post =  cachedPosts?.find((post) => post._id === id);
+  const post = cachedPosts?.find((post) => post._id === id);
 
-  
   //const hasUserLiked = sessionStorage.getItem(postLikedKey) === "true";
   const [isLiked, setIsLiked] = useState<boolean>();
   const [postLikedKey, setpostLikedKey] = useState<string>();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const sessionId = sessionStorage.getItem("sessionId");
       setpostLikedKey(`liked_${id}_${sessionId}`);
       const hasUserLiked = sessionStorage.getItem(postLikedKey!) === "true";
-      setIsLiked(hasUserLiked)
+      setIsLiked(hasUserLiked);
     }
   }, []);
-  
+
   const handleLikeButton = () => {
     const newValue = !isLiked;
     setIsLiked(newValue);

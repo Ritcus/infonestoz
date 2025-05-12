@@ -7,7 +7,7 @@ export type Post = {
     _type: "slug";
     current: string;
   };
-  content: PortableTextBlock[]; // Optional for full article view
+  content: PortableTextBlock[];
   category: string;
   date: string;
   tags: string[];

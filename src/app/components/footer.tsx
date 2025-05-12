@@ -2,9 +2,9 @@ import Link from "next/link";
 import {
   FaBookOpen,
   FaFacebook,
-  FaGithub,
   FaInstagram,
-  FaTwitter,
+  FaTiktok,
+  FaYoutube,
 } from "react-icons/fa";
 
 export function Footer() {
@@ -21,21 +21,33 @@ export function Footer() {
               Sharing knowledge, insights, and stories that inspire and inform.
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="text-purple-200 hover:text-white">
+              <Link
+                href="https://www.facebook.com/profile.php?id=61576300254848#"
+                className="text-purple-200 hover:text-white"
+              >
                 <FaFacebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
               </Link>
-              <Link href="#" className="text-purple-200 hover:text-white">
-                <FaTwitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
+              <Link
+                href="https://www.tiktok.com/@infonest_official"
+                className="text-purple-200 hover:text-white"
+              >
+                <FaTiktok className="h-5 w-5" />
+                <span className="sr-only">TikTok</span>
               </Link>
-              <Link href="#" className="text-purple-200 hover:text-white">
+              <Link
+                href="https://www.instagram.com/infonest.oz/"
+                className="text-purple-200 hover:text-white"
+              >
                 <FaInstagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </Link>
-              <Link href="#" className="text-purple-200 hover:text-white">
-                <FaGithub className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
+              <Link
+                href="https://www.youtube.com/@InfoNestOz"
+                className="text-purple-200 hover:text-white"
+              >
+                <FaYoutube className="h-5 w-5" />
+                <span className="sr-only">Youtube</span>
               </Link>
             </div>
           </div>
@@ -43,27 +55,28 @@ export function Footer() {
             <h3 className="text-sm font-medium">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
+                <Link href="/" className="text-purple-200 hover:text-white">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
+                <Link
+                  href="/about"
+                  className="text-purple-200 hover:text-white"
+                >
                   About
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
+                <Link href="/post" className="text-purple-200 hover:text-white">
                   Articles
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
-                  Categories
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
+                <Link
+                  href="/contact"
+                  className="text-purple-200 hover:text-white"
+                >
                   Contact
                 </Link>
               </li>
@@ -73,28 +86,35 @@ export function Footer() {
             <h3 className="text-sm font-medium">Categories</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
-                  Technology
+                <Link
+                  href="/post/blog"
+                  className="text-purple-200 hover:text-white"
+                >
+                  Blog
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
-                  Productivity
+                <Link
+                  href="/post/news"
+                  className="text-purple-200 hover:text-white"
+                >
+                  News
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
-                  Design
+                <Link
+                  href="/post/bargain"
+                  className="text-purple-200 hover:text-white"
+                >
+                  Bargain
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
+                <Link
+                  href="/post/commercial"
+                  className="text-purple-200 hover:text-white"
+                >
                   Business
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-purple-200 hover:text-white">
-                  Lifestyle
                 </Link>
               </li>
             </ul>
@@ -112,7 +132,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/disclaimer"
+                  href="/cookie-policy"
                   className="text-purple-200 hover:text-white"
                 >
                   Disclaimer

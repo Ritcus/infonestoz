@@ -59,8 +59,7 @@ export function PostCard({ post }: PostCardProps) {
             )}
           </div>
         </div>
-        <Link
-          href={`/post/${post._id}`}
+        <Link href={`/post/${post._id}`}
           className="hover:text-purple-900 transition-colors"
         >
           <h3 className="text-xl font-bold">{post.title}</h3>

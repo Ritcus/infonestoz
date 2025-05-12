@@ -8,6 +8,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { navLinks, postCategories } from "@/types/navigation";
 import { SearchBox } from "./search-box";
+import { ArticleProgress } from "./article-progress";
 
 export function Navbar() {
   const [sideNavOpen, setSideNavOpen] = useState(false);
@@ -18,6 +19,7 @@ export function Navbar() {
 
   const closeMobileMenu = () => setSideNavOpen(false);
 
+
   const handleCategoryClick = (href: string) => {
     router.push(href);
     setIsPostsDropdownOpen(false);
@@ -26,8 +28,10 @@ export function Navbar() {
 
   return (
     <>
+
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-purple-900 backdrop-blur supports-[backdrop-filter]:bg-purple-900/95 p-3">
+      <ArticleProgress />
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             {/* Hamburger menu - only visible on mobile */}
@@ -244,6 +248,7 @@ export function Navbar() {
           </div>
         </nav>
       </div>
+      
     </>
   );
 }

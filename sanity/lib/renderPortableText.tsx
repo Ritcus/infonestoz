@@ -46,16 +46,16 @@ export const renderPortableText = (content: PortableTextContent[]) => {
     },
     block: {
       h1: ({ children }) => (
-        <h1 className="text-3xl m-10 font-bold text-center">{children}</h1>
+        <h1 className="text-3xl mt-10 font-bold">{children}</h1>
       ),
       h2: ({ children }) => (
-        <h2 className="text-3xl m-10 font-bold text-center">{children}</h2>
+        <h2 className="text-3xl mt-10 font-bold">{children}</h2>
       ),
       h3: ({ children }) => (
-        <h3 className="text-3xl m-10 font-bold text-center">{children}</h3>
+        <h3 className="text-3xl mt-10  font-bold">{children}</h3>
       ),
       h4: ({ children }) => (
-        <h3 className="text-3xl m-10 font-bold text-center">{children}</h3>
+        <h3 className="text-3xl mt-10 font-bold">{children}</h3>
       ),
       normal: ({ children }) => (
         <p className="text-base font-medium leading-relaxed my-3 ">

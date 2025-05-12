@@ -3,9 +3,6 @@ import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   const { to, subject, text, replyTo } = await request.json();
-  console.log("Using email:", process.env.EMAIL_USER);
-  console.log("Password length:", process.env.EMAIL_PASSWORD?.length);
-  // Validate input here...
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -17,11 +14,11 @@ export async function POST(request: Request) {
 
   try {
     await transporter.sendMail({
-      from: `"Website Contact" <${process.env.EMAIL_USER}>`,
+      from: `"InfoNestOz" <${process.env.EMAIL_USER}>`,
       to,
       replyTo,
       subject,
-      text,
+      html: `<p>${text}</p>`,
     });
     return NextResponse.json({ success: true });
   } catch (error) {

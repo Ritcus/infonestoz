@@ -12,7 +12,7 @@ export default function NewsLetterSection () {
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
               Stay Updated
             </h2>
-            {isSubmitted ? (
+            {!isSubmitted ? (
             <div>
             <p className="text-muted-foreground mb-6">
               Join our newsletter and never miss out on new content.

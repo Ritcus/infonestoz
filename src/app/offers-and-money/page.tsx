@@ -131,8 +131,7 @@ export default function OffersPage() {
 
         <section className="py-16 md:py-24 bg-purple-50 mt-5 shadow-md rounded-xl">
           <div className="container px-4 md:px-6">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
+            
                 <h2 className="text-3xl font-bold mb-6 text-purple-900 text-center">
                   Smart Saving Strategies
                 </h2>
@@ -226,8 +225,6 @@ export default function OffersPage() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
         </section>
 
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-purple-900 text-white mt-5 shadow-md rounded-xl">

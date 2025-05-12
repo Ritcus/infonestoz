@@ -18,8 +18,7 @@ export default function NewsLetterSection () {
               Join our newsletter and never miss out on new content.
               We&apos;ll deliver the best articles straight to your inbox.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+            <div className="flex flex-col justify-center sm:flex-row gap-2 max-w-md mx-auto">
                 <form 
                 onSubmit={()=>setIsSubmitted(true)}>
               <Input

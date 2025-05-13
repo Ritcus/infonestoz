@@ -16,11 +16,13 @@ import { Button } from "@/app/components/ui/button";
 import { useGlobalData } from "@/lib/globalData";
 import { postsQuery } from "@/lib/queries";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function OffersPage() {
+    const router = useRouter();
   const { data: cachedPosts } = useGlobalData<Post[]>(postsQuery);
   const bargainPosts = cachedPosts
-    ?.filter((post) => post.category === "Bargain")
+    ?.filter((post) => post.category === "Bargain" && post.isFeatured)
     .slice(0, 5);
 
   return (
@@ -131,7 +133,6 @@ export default function OffersPage() {
 
         <section className="py-16 md:py-24 bg-purple-50 mt-5 shadow-md rounded-xl">
           <div className="container px-4 md:px-6">
-            
                 <h2 className="text-3xl font-bold mb-6 text-purple-900 text-center">
                   Smart Saving Strategies
                 </h2>
@@ -162,7 +163,8 @@ export default function OffersPage() {
                         </p>
                         <Button
                           variant="link"
-                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm"
+                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm hover:text-purple-800 hover:cursor-pointer"
+                          onClick={() => router.push(`/post/bargain`)}
                         >
                           Learn more →
                         </Button>
@@ -190,7 +192,8 @@ export default function OffersPage() {
                         </p>
                         <Button
                           variant="link"
-                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm"
+                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm hover:text-purple-800 hover:cursor-pointer"
+                          onClick={() => router.push(`/post/bargain`)}
                         >
                           Learn more →
                         </Button>
@@ -216,7 +219,8 @@ export default function OffersPage() {
                         </p>
                         <Button
                           variant="link"
-                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm"
+                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm hover:text-purple-800 hover:cursor-pointer"
+                          onClick={() => router.push(`/post/bargain`)}
                         >
                           Learn more →
                         </Button>
@@ -246,7 +250,11 @@ export default function OffersPage() {
                       <span className="bg-purple-100 text-purple-900 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
                         {index + 1}
                       </span>
-                      <h3 className="font-bold text-lg">{post.title}</h3>
+                      <Link
+                      href={`/post/${post._id}`}
+                    >
+                     <h3 className="font-bold text-lg text-purple-600 hover:text-purple-800">{post.title}</h3>
+                    </Link>
                     </div>
                     {post.content && (
                       <div className="text-gray-600 mb-4">
@@ -258,7 +266,7 @@ export default function OffersPage() {
                       </div>
                     )}
                     <Link
-                      href={`/posts/${post._id}`}
+                      href={`/post/${post._id}`}
                       className="mt-4 inline-block text-sm font-medium text-purple-600 hover:text-purple-800"
                     >
                       Read more →

@@ -45,7 +45,8 @@ export function PostCarousels({
     }
 
     slideInterval.current = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % posts!.length);
+      if (!posts || posts.length === 0) return;
+      setCurrentSlide((prev) => (prev + 1) % posts.length);
     }, autoplayInterval);
   };
 
@@ -66,7 +67,7 @@ export function PostCarousels({
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-            {posts!.map((post) => (
+            {posts?.map((post) => (
               <div key={post._id} className="w-full flex-shrink-0">
                 <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
                   <div className="flex flex-col justify-center space-y-4">
@@ -83,12 +84,12 @@ export function PostCarousels({
                       <div className="max-w-[600px] text-muted-foreground md:text-xl">
                         <PortableTextRenderer
                           content={toCustomPortableText(post.content)}
-                          wordLimit={30}
+                          wordLimit={20}
                           removeImages={true}
                         />
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-20 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         <span>
@@ -97,7 +98,7 @@ export function PostCarousels({
                       </div>
                       <div className="flex items-center gap-1">
                         <User className="h-4 w-4" />
-                        <span>Ritcus Matgau</span>
+                        <span>Admin</span>
                       </div>
                     </div>
                     <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -129,7 +130,7 @@ export function PostCarousels({
           </div>
           {/* Dots Indicator */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-            {posts!.map((_, index) => (
+            {posts?.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}

@@ -12,6 +12,7 @@ import { PostCard } from "../components/post-card";
 import { InstallButton } from "../components/app-install-button";
 import { Button } from "../components/ui/button";
 import NewsLetterSection from "../components/newsletter";
+import { getPostsByDateLatest } from "@/lib/getLatestPosts";
 
 export default function Home() {
   const [postsList, setPosts] = useState<Post[]>([]);
@@ -22,8 +23,10 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       if (posts) {
-        setPosts(posts);
-        settagsList(getUniqueTags(posts));
+        const sortedPost =posts? getPostsByDateLatest(posts):[];
+        const latestPost = sortedPost.slice(0,8);
+        setPosts(latestPost);
+        settagsList(getUniqueTags(sortedPost));
       }
     };
     fetchData();
@@ -34,7 +37,7 @@ export default function Home() {
       <main className="flex-1">
         {/* Featured Post Carousel */}
         <PostCarousels
-          posts={postsList?.filter((f) => f.isFeatured).slice(0, 3)}
+          posts={posts?.filter((f) => f.isFeatured).slice(0, 3)}
         />
 
         {/* Recent Posts */}
@@ -59,9 +62,9 @@ export default function Home() {
             </div>
 
             <div className="grid gap-6 pt-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-              {postsList?.map((post) => (
+              {postsList.length> 0 ? postsList.map((post) => (
                 <PostCard key={post._id} post={post} />
-              ))}
+              )): (<p>No posts found</p>)}
             </div>
           </div>
         </section>
@@ -80,7 +83,7 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4 mt-8 md:grid-cols-3 lg:grid-cols-4">
-              {tagsList.slice(0, 8).map((tag) => (
+              {tagsList?.slice(0, 8).map((tag) => (
                 <Link
                   key={tag.name}
                   href={`/tagfilter?t=${encodeURIComponent(tag.name)}`}

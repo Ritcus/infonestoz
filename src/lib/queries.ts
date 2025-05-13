@@ -8,5 +8,10 @@ export const postsQuery = `*[_type == "post"]{
     tags,
     isFeatured,
     mainImage,
+    readMinute,
+    author {
+      name,
+      image
+    },
     popularity
   }`

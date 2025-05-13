@@ -1,5 +1,10 @@
 import { PortableTextBlock } from "sanity";
 
+export type Author = {
+    name: string;
+    image?:string;
+}
+
 export type Post = {
   _id: string;
   title: string;
@@ -12,6 +17,8 @@ export type Post = {
   date: string;
   tags: string[];
   isFeatured: boolean;
+  readMinute?: string;
+  author?: Author;
   mainImage: {
     asset: {
       _ref: string;

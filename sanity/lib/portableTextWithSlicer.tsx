@@ -89,7 +89,10 @@ function processContent(
       break;
     }
 
-    // Handle image blocks
+    if (block.style && ['h1', 'h2', 'h3', 'h4'].includes(block.style)) {
+      continue;
+    }
+
     if (block._type === 'image') {
       if (!removeImages) {
         slicedContent.push(block);
@@ -97,7 +100,6 @@ function processContent(
       continue;
     }
 
-    // Skip if not a text block or missing children
     if (block._type !== 'block' || !block.children) {
       slicedContent.push(block);
       continue;
@@ -128,7 +130,6 @@ function processContent(
           wordCount += wordsToTake;
         }
       } else {
-        // Preserve non-span children (like images)
         newBlock.children.push(child);
       }
     }
@@ -141,7 +142,6 @@ function processContent(
   return { slicedContent, isTruncated };
 }
 
-// Helper to convert any content to our custom type
 export function toCustomPortableText(content: any[]): CustomPortableTextBlock[] {
   return content.map(block => ({
     ...block,

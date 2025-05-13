@@ -71,14 +71,14 @@ export function PostCard({ post }: PostCardProps) {
             removeImages={true}
           />
         </div>
-        <div className="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
+        <div className="flex items-center gap-20 mt-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
             <span>{new Date(post.date).toLocaleDateString("en-GB")}</span>
           </div>
           <div className="flex items-center gap-1">
             <User className="h-3 w-3" />
-            <span>Ritcus Matgau</span>
+            <span>Admin</span>
           </div>
         </div>
       </CardContent>

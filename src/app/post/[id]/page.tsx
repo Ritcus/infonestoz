@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Post } from "@/types/post";
 import { use } from "react";
 import { formatDate } from "@/lib/formatDate";
-import PopularPostsSlider from "@/app/components/post-slider";
+import PopularPostsSlider from "@/app/components/related-post-slider";
 import { urlFor } from "../../../../sanity/lib/image";
 import { renderPortableText } from "../../../../sanity/lib/renderPortableText";
 import { useGlobalData } from "@/lib/globalData";
@@ -15,6 +15,7 @@ import { Badge } from "@/app/components/ui/badge";
 import { useRouter } from "next/navigation";
 import { ShareButtons } from "@/app/components/share-buttons";
 import { ArticleActions } from "@/app/components/article-actions";
+import { AuthorCard } from "@/app/components/author-card";
 
 export default function PostPage({
   params,
@@ -27,6 +28,8 @@ export default function PostPage({
   const post = cachedPosts?.find((post) => post._id === id);
 
   const router = useRouter();
+
+  console.log(post)
 
   if (!post) return <div>Post not found</div>;
 
@@ -56,16 +59,16 @@ export default function PostPage({
 
               <p className="text-lg md:text-xl text-gray-700 max-w-3xl"></p>
 
-              <div className="flex flex-wrap items-center gap-10 text-sm text-gray-600 mb-5">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-5">
+                <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   <span>{formatDate(post.date)}</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   <Clock className="h-4 w-4" />
-                  <span>20 min read</span>
+                  <span>{post?.readMinute} min read</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   <ThumbsUp className="h-4 w-4" />
                   <span>{post.popularity || 0} views</span>
                 </div>
@@ -90,7 +93,9 @@ export default function PostPage({
           {/* Content with interspersed images */}
           <article className="prose lg:prose-xl max-w-none mb-12 bg-grey-800">
             <div className="mb-4">{renderPortableText(post.content)}</div>
-
+            <div className="mt-8 pt-8 border-t">
+                <AuthorCard author={post.author} />
+              </div>
             <div className="flex justify-center gap-4 mt-10">
                 <ArticleActions articleId={post._id} popularity={post?.popularity} />
           </div>
@@ -104,7 +109,7 @@ export default function PostPage({
                 <ArticleActions articleId={post._id} variant="compact" />
               </div>
       <div className="g-white text-gray-900 shadow-md rounded-xl p-5">
-        <PopularPostsSlider />
+        <PopularPostsSlider tags={post.tags} currentPostId={post._id} />
       </div>
     </div>
   );

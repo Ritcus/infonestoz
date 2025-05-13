@@ -8,26 +8,31 @@ import { postsQuery } from "@/lib/queries";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function PopularPostsSlider() {
+interface RelatedPostsSliderProps{
+  tags: string[];
+  currentPostId: string;
+}
+
+export default function RelatedPostsSlider({tags, currentPostId}: RelatedPostsSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
   const { data: cachedPosts } = useGlobalData<Post[]>(postsQuery);
-  const popularPosts = cachedPosts!
-    .filter((post) => post.popularity || 0 > 10)
-    .slice(0, 5);
+  const relatedPosts = cachedPosts!
+    .filter((post) => tags.some(s => post.tags.includes(s))&& post._id !== currentPostId)
+    .slice(0, 6);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 3) % popularPosts.length);
+    setCurrentIndex((prev) => (prev + 3) % relatedPosts.length);
   };
 
   const prevSlide = () => {
     setCurrentIndex(
-      (prev) => (prev - 3 + popularPosts.length) % popularPosts.length
+      (prev) => (prev - 3 + relatedPosts.length) % relatedPosts.length
     );
   };
 
   useEffect(() => {
-    if (popularPosts.length === 0) return;
+    if (relatedPosts.length === 0) return;
     const interval = setInterval(() => {
       nextSlide();
     }, 6000);
@@ -35,23 +40,23 @@ export default function PopularPostsSlider() {
   }, []);
 
   const getVisiblePosts = () => {
-    if (popularPosts.length === 0) return [];
+    if (relatedPosts.length === 0) return [];
     const posts = [];
     for (let i = 0; i < 3; i++) {
-      posts.push(popularPosts[(currentIndex + i) % popularPosts.length]);
+      posts.push(relatedPosts[(currentIndex + i) % relatedPosts.length]);
     }
     return posts;
   };
 
   const visiblePosts = getVisiblePosts();
 
-  if (popularPosts.length === 0) return null;
+  if (relatedPosts.length === 0) return null;
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto">
       <div className="text-center mb-8">
         <h3 className="font-bold text-black text-xl sm:text-2xl inline-block px-4">
-          Popular Posts
+          Related Articles
         </h3>
         <div className="h-2 w-full bg-purple-800"></div>
         <button

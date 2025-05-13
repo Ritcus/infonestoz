@@ -92,7 +92,7 @@ export default function Home() {
                   }
                   className="flex flex-col items-center justify-center p-6 rounded-lg text-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600"
                 >
-                  <h3 className="text-lg font-medium">{tag.name}</h3>
+                  <h3 className="text-lg font-medium">{tag.name.toLocaleLowerCase()}</h3>
                   <p className="text-sm text-muted-foreground">
                     {tag.count} articles
                   </p>

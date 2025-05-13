@@ -102,7 +102,7 @@ export function PostCarousels({
                       </div>
                     </div>
                     <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                      <Link href={`/post/${post._id}`}>
+                      <Link href={`/post/${post.slug.current}`}>
                         <Button className="bg-purple-900 hover:bg-purple-800">
                           Read Article
                           <ChevronRight className="ml-2 h-4 w-4" />

@@ -31,6 +31,7 @@ export function PostCard({ post }: PostCardProps) {
             width={500}
             height={250}
             alt={post.title}
+            priority
             className="aspect-[2/1] w-full object-cover transition-transform hover:scale-105 duration-300"
           />
         </Link>
@@ -59,7 +60,7 @@ export function PostCard({ post }: PostCardProps) {
             )}
           </div>
         </div>
-        <Link href={`/post/${post._id}`}
+        <Link href={`/post/${post.slug.current}`}
           className="hover:text-purple-900 transition-colors"
         >
           <h3 className="text-xl font-bold">{post.title}</h3>
@@ -88,7 +89,7 @@ export function PostCard({ post }: PostCardProps) {
           asChild
           className="px-0 text-purple-900 hover:text-purple-700"
         >
-          <Link href={`/post/${post._id}`}>
+          <Link href={`/post/${post.slug.current}`}>
             Read More
             <ChevronRight className="ml-1 h-4 w-4" />
           </Link>

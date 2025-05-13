@@ -20,12 +20,12 @@ import { AuthorCard } from "@/app/components/author-card";
 export default function PostPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = use(params);
+  const { slug } = use(params);
 
   const { data: cachedPosts } = useGlobalData<Post[]>(postsQuery);
-  const post = cachedPosts?.find((post) => post._id === id);
+  const post = cachedPosts?.find((post) => post.slug.current === slug);
 
   const router = useRouter();
 

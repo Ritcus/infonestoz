@@ -141,9 +141,9 @@ export default function PostList_Layout({
 
         {/* Posts Section */}
         <section className="py-12 md:py-16">
-          <div className="container px-4 md:px-6">
+          <div className="container px-0 md:px-6">
             {/* Filters and Sorting */}
-            <div className="flex flex-row justify-between items-start gap-4 mb-8">
+            <div className="flex flex-row justify-between items-start gap-2 mb-8">
               <div className="flex ">
                 {tag ? (
                   <TagFilter
@@ -174,7 +174,7 @@ export default function PostList_Layout({
 
             {/* Posts Grid */}
             {currentPosts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 px-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {currentPosts.map((post) => (
                   <PostCard key={post._id} post={post} />
                 ))}

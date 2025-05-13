@@ -38,7 +38,7 @@ export default function RootLayout({
 
       <body>
         <Navbar />
-        <main className="h-full flex flex-col p-10 bg-gray-50 text-gray-900">
+        <main className="h-full flex flex-col p-5 bg-gray-50 text-gray-900">
           {children}
         </main>
         <footer>

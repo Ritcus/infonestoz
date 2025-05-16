@@ -14,7 +14,7 @@ export type Post = {
   };
   content: PortableTextBlock[];
   category: string;
-  date: string;
+  publishedAt: string;
   tags: string[];
   isFeatured: boolean;
   readMinute?: string;

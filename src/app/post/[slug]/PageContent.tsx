@@ -2,7 +2,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Post } from "@/types/post";
-import { use } from "react";
 import { formatDate } from "@/lib/formatDate";
 import PopularPostsSlider from "@/app/components/related-post-slider";
 import { urlFor } from "../../../../sanity/lib/image";
@@ -17,19 +16,16 @@ import { ShareButtons } from "@/app/components/share-buttons";
 import { ArticleActions } from "@/app/components/article-actions";
 import { AuthorCard } from "@/app/components/author-card";
 import Script from "next/script";
+import { use } from "react";
 
 
-function StructuredData({ post }: { post: any }) {
+function StructuredData({ post }: { post: Post }) {
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": post.title,
-      "description": post.excerpt,
+      "description": post.content,
       "datePublished": post.publishedAt,
-      "author": {
-        "@type": "Person",
-        "name": post.author.name,
-      },
       "image": post.mainImage,
     }
   
@@ -45,7 +41,7 @@ function StructuredData({ post }: { post: any }) {
 export default function PageContent({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>
 }) {
   const { slug } = use(params);
 
@@ -53,8 +49,6 @@ export default function PageContent({
   const post = cachedPosts?.find((post) => post.slug.current === slug);
 
   const router = useRouter();
-
-  console.log(post)
 
   if (!post) return <div>Post not found</div>;
 

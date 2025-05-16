@@ -1,13 +1,14 @@
 import { Metadata } from "next";
 import { client } from "../../../../sanity/lib/client";
-import Script from "next/script";
 import PageContent from "./PageContent";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string }
-}): Promise<Metadata> {
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+
+  const slug = (await params).slug;
   const post = await client.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
       title,
@@ -16,13 +17,11 @@ export async function generateMetadata({
       publishedAt,
       author->{name}
     }`,
-    { slug: params.slug }
+    { slug: slug}
   )
-
-  console.log(post)
   return {
-    title: `${post.title} | Your Blog`,
-    description: post.content,
+    title: `Post: ${slug}` || 'Post Not Found',
+    description: post.content || 'Post not available',
     openGraph: {
       title: post.title,
       description: post.content,
@@ -48,10 +47,10 @@ export async function generateMetadata({
 
 
 
-export default function PostPage({
+export default async function PostPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>
 }) {
   return (
     <PageContent params={params} />

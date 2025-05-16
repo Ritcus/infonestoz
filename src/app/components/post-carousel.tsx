@@ -93,7 +93,7 @@ export function PostCarousels({
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         <span>
-                          {new Date(post.date).toLocaleDateString("en-GB")}
+                          {new Date(post.publishedAt).toLocaleDateString("en-GB")}
                         </span>
                       </div>
                       <div className="flex items-center gap-1">

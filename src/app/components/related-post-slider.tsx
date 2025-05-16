@@ -75,7 +75,7 @@ export default function RelatedPostsSlider({tags, currentPostId}: RelatedPostsSl
                 key={`${post._id}-${index}`}
                 className="cursor-pointer bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all hover:bg-gray-50"
                 onClick={() => {
-                  router.push(`/post/${post.slug.current}`);
+                  router.push(`/post/${post.slug}`);
                 }}
                 style={{
                   cursor: "pointer",
@@ -96,7 +96,7 @@ export default function RelatedPostsSlider({tags, currentPostId}: RelatedPostsSl
                 </h4>
                 <div className="flex justify-between items-center mt-4">
                   <span className="text-sm text-gray-500">
-                    {new Date(post.date).toLocaleDateString()}
+                    {new Date(post.publishedAt).toLocaleDateString()}
                   </span>
                   <span className="text-sm font-medium text-purple-800">
                     {post.category}

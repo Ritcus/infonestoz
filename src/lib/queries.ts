@@ -3,7 +3,7 @@ export const postsQuery = `*[_type == "post"]{
     title,
     slug,
     content,
-    date,
+    publishedAt,
     category,
     tags,
     isFeatured,

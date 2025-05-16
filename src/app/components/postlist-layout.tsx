@@ -75,9 +75,9 @@ export default function PostList_Layout({
   const sortedPosts = [...(filteredPosts || [])].sort((a, b) => {
     switch (sortOption) {
       case "newest":
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
       case "oldest":
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
+        return new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime();
       case "a-z":
         return a.title.localeCompare(b.title);
       case "z-a":

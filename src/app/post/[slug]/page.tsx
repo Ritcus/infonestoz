@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { client } from "../../../../sanity/lib/client";
 import PageContent from "./PageContent";
+import { Suspense } from "react";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -53,6 +54,6 @@ export default async function PostPage({
   params: Promise<{ slug: string }>
 }) {
   return (
-    <PageContent params={params} />
+      <PageContent params={params} />
   )
 }

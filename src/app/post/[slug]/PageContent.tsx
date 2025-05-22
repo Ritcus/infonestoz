@@ -67,7 +67,7 @@ export default function PageContent({
       <div className="text-center py-20">
         <h2 className="text-2xl font-bold">Article Not Found</h2>
         <p className="mt-4 text-gray-600">
-          The article you're looking for doesn't exist or may have been removed.
+          The article you&apos;re looking for doesn&apos;t exist or may have been removed.
         </p>
         <button
           onClick={() => router.back()}

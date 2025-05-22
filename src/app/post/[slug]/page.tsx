@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { client } from "../../../../sanity/lib/client";
 import PageContent from "./PageContent";
-import { Suspense } from "react";
 
 type PageProps = {
   params: Promise<{ slug: string }>;

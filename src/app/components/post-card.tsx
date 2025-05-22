@@ -25,7 +25,7 @@ export function PostCard({ post }: PostCardProps) {
   return (
     <Card className="overflow-hidden h-full flex flex-col">
       <CardHeader className="p-0">
-        <Link href={`/post/${post._id}`}>
+        <Link href={`/post/${post.slug.current}`}>
           <Image
             src={urlFor(post.mainImage).url()}
             width={500}

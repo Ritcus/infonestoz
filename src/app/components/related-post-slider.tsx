@@ -75,7 +75,7 @@ export default function RelatedPostsSlider({tags, currentPostId}: RelatedPostsSl
                 key={`${post._id}-${index}`}
                 className="cursor-pointer bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all hover:bg-gray-50"
                 onClick={() => {
-                  router.push(`/post/${post.slug}`);
+                  router.push(`/post/${post.slug.current}`);
                 }}
                 style={{
                   cursor: "pointer",

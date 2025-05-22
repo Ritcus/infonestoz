@@ -13,12 +13,14 @@ import { InstallButton } from "../components/app-install-button";
 import { Button } from "../components/ui/button";
 import NewsLetterSection from "../components/newsletter";
 import { getPostsByDateLatest } from "@/lib/getLatestPosts";
+import Spinner from "../components/spinner";
 
 export default function Home() {
   const [postsList, setPosts] = useState<Post[]>([]);
-  const { data: posts } = useGlobalData<Post[]>(postsQuery);
+  const { data: posts, isLoading } = useGlobalData<Post[]>(postsQuery);
   const [tagsList, settagsList] = useState<TagsWithCount[]>([]);
   const router = useRouter();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,9 +64,16 @@ export default function Home() {
             </div>
 
             <div className="grid gap-6 pt-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-              {postsList.length> 0 ? postsList.map((post) => (
+              { isLoading ? (
+                <div className="flex justify-center py-8">
+                <Spinner />
+              </div>
+              ) : ( postsList.length >0 ?
+               postsList.map((post) => (
                 <PostCard key={post._id} post={post} />
-              )): (<p>No posts found</p>)}
+              )):<div className="text-center py-8 text-gray-500">
+              No posts found
+            </div> )}
             </div>
           </div>
         </section>

@@ -16,9 +16,8 @@ import { ShareButtons } from "@/app/components/share-buttons";
 import { ArticleActions } from "@/app/components/article-actions";
 import { AuthorCard } from "@/app/components/author-card";
 import Script from "next/script";
-
-import ArticleLoader from "./ArticleLoader";
 import { use } from "react";
+import Spinner from "@/app/components/spinner";
 
 function StructuredData({ post }: { post: Post }) {
   const jsonLd = {
@@ -58,7 +57,7 @@ export default function PageContent({
   if (isLoading)
     return (
       <div>
-        <ArticleLoader />
+        <Spinner loadingName="article" />
       </div>
     );
 

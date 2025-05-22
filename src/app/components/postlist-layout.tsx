@@ -12,6 +12,7 @@ import { PostCard } from "./post-card";
 import { Pagination } from "./pagination";
 import { TagFilter } from "./tag-filter";
 import NewsLetterSection from "./newsletter";
+import Spinner from "./spinner";
 
 interface PostsListsProps {
   category?: string;
@@ -24,7 +25,7 @@ export default function PostList_Layout({
   searchKeywords,
   tag,
 }: PostsListsProps) {
-  const { data: posts } = useGlobalData<Post[]>(postsQuery);
+  const { data: posts, isLoading } = useGlobalData<Post[]>(postsQuery);
 
   const allCategories = Array.from(
     new Set(posts?.map((post) => post.category))
@@ -173,7 +174,11 @@ export default function PostList_Layout({
             </div>
 
             {/* Posts Grid */}
-            {currentPosts.length > 0 ? (
+            { isLoading ? (
+              <div className="flex justify-center py-8">
+              <Spinner />
+            </div>
+            ) :(currentPosts.length > 0 ? (
               <div className="grid grid-cols-1 px-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {currentPosts.map((post) => (
                   <PostCard key={post._id} post={post} />
@@ -189,7 +194,7 @@ export default function PostList_Layout({
                   you&apos;re looking for.
                 </p>
               </div>
-            )}
+            ))}
 
             {/* Pagination */}
             {totalPages > 1 && (

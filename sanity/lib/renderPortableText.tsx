@@ -58,7 +58,7 @@ export const renderPortableText = (content: PortableTextContent[]) => {
         <h3 className="text-3xl mt-10 font-bold">{children}</h3>
       ),
       normal: ({ children }) => (
-        <p className="text-base font-medium leading-relaxed my-3 ">
+        <p className="text-base leading-relaxed my-3 ">
           {children}
         </p>
       ),

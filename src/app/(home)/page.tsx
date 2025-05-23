@@ -38,9 +38,15 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">
         {/* Featured Post Carousel */}
+          { isLoading ? (
+                <div className="flex justify-center py-8">
+                <Spinner />
+              </div>
+              ) :(
         <PostCarousels
           posts={posts?.filter((f) => f.isFeatured).slice(0, 3)}
         />
+              )}
 
         {/* Recent Posts */}
         <section className="w-full py-12 md:py-24">

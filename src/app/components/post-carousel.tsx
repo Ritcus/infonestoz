@@ -25,6 +25,9 @@ export function PostCarousels({
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideInterval = useRef<NodeJS.Timeout | null>(null);
 
+  const extractFeaturedPosts = posts?.filter((f) => f.isFeatured);
+  const extractFeaturedPostsByDate = extractFeaturedPosts?.sort((a,b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()).slice(0,5);
+
   // Handle automatic slideshow
   useEffect(() => {
     // Start the slideshow
@@ -45,8 +48,8 @@ export function PostCarousels({
     }
 
     slideInterval.current = setInterval(() => {
-      if (!posts || posts.length === 0) return;
-      setCurrentSlide((prev) => (prev + 1) % posts.length);
+      if (!extractFeaturedPostsByDate || extractFeaturedPostsByDate.length === 0) return;
+      setCurrentSlide((prev) => (prev + 1) % extractFeaturedPostsByDate.length);
     }, autoplayInterval);
   };
 
@@ -67,7 +70,7 @@ export function PostCarousels({
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-            {posts?.map((post) => (
+            {extractFeaturedPostsByDate?.map((post) => (
               <div key={post._id} className="w-full flex-shrink-0">
                 <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
                   <div className="flex flex-col justify-center space-y-4">
@@ -130,7 +133,7 @@ export function PostCarousels({
           </div>
           {/* Dots Indicator */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-            {posts?.map((_, index) => (
+            {extractFeaturedPostsByDate?.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}

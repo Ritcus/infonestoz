@@ -44,7 +44,7 @@ export default function Home() {
               </div>
               ) :(
         <PostCarousels
-          posts={posts?.filter((f) => f.isFeatured).slice(0, 3)}
+          posts={posts}
         />
               )}
 

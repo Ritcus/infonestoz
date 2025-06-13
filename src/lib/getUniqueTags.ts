@@ -5,7 +5,6 @@ const getUniqueTags = (posts: { tags: string[] }[]): TagsWithCount[] => {
 
   // Count all tag occurrences
   const tagCounts = new Map<string, number>();
-  console.log(posts);
   posts.forEach((post) => {
     post.tags?.forEach((tagName) => {
       tagCounts.set(tagName, (tagCounts.get(tagName) || 0) + 1);

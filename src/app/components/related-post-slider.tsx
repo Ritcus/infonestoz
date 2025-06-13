@@ -18,7 +18,7 @@ export default function RelatedPostsSlider({tags, currentPostId}: RelatedPostsSl
   const router = useRouter();
   const { data: cachedPosts } = useGlobalData<Post[]>(postsQuery);
   const relatedPosts = cachedPosts!
-    .filter((post) => tags.some(s => post.tags.includes(s))&& post._id !== currentPostId)
+    .filter((post) => tags?.some(s => post?.tags?.includes(s))&& post._id !== currentPostId)
     .slice(0, 6);
 
   const nextSlide = () => {

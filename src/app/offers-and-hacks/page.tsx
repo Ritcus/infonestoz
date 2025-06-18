@@ -6,6 +6,8 @@ import {
 } from "../../../sanity/lib/portableTextWithSlicer";
 import {
   Gift,
+  Heart,
+  Home,
   Plane,
   ShoppingCart,
   Smartphone,
@@ -24,10 +26,12 @@ export default function OffersPage() {
   const bargainPosts = cachedPosts
     ?.filter((post) => post.category === "Bargain" && post.isFeatured)
     .slice(0, 5);
+  
+    const studentBargainsPosts = cachedPosts?.filter((post)=> post.category === "Bargain" && post.tags.some(tag => ["student", "students"].includes(tag.toLocaleLowerCase())));
 
   return (
     <div className="flex min-h-screen flex-col">
-      <title>Welcome to BudgetBuddy - Live More, Spend Less</title>
+      <title>Welcome to Money and Hacks</title>
       <meta
         name="description"
         content="Discover amazing bargains and money-saving tips"
@@ -40,7 +44,7 @@ export default function OffersPage() {
               <span className="text-4xl">😊</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold text-purple-900 mb-6">
-              Welcome to <span className="text-purple-600">BudgetBuddy</span>
+              Welcome to <span className="text-purple-600">Money and Hacks</span>
             </h1>
             <p className="text-xl text-gray-700 mb-8">
               Your ultimate guide to{" "}
@@ -77,59 +81,154 @@ export default function OffersPage() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24 shadow-md rounded-xl bg-gradient-to-br from-purple-900 to-purple-800 mt-5">
-          <div className="container px-4 md:px-6">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl font-bold mb-6 text-white">
-                Saving Categories
-              </h2>
-              <p className="text-lg text-white">
-                Explore our comprehensive guides and tips across these
-                money-saving categories
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                  <ShoppingCart className="h-7 w-7 text-purple-900" />
+         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-purple-900 text-white mt-5 shadow-md rounded-xl">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-2 text-center">
+              🏆 Top Bargain Picks
+            </h2>
+            <p className="text-center text-purple-200 mb-8">
+              Live in budget, get more while paying less!
+            </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {bargainPosts?.map((post, index) => (
+                <div
+                  key={post._id}
+                  className="bg-white rounded-lg overflow-hidden shadow-lg text-purple-900"
+                >
+                  <div className="p-5">
+                    <div className="flex items-center mb-2">
+                      <span className="bg-purple-100 text-purple-900 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                        {index + 1}
+                      </span>
+                      <Link
+                      href={`/post/${post.slug.current}`}
+                    >
+                     <h3 className="font-bold text-lg text-purple-600 hover:text-purple-800">{post.title}</h3>
+                    </Link>
+                    </div>
+                    {post.content && (
+                      <div className="text-gray-600 mb-4">
+                        <PortableTextRenderer
+                          content={toCustomPortableText(post.content)}
+                          wordLimit={30}
+                          removeImages={true}
+                        />
+                      </div>
+                    )}
+                    <Link
+                      href={`/post/${post.slug.current}`}
+                      className="mt-4 inline-block text-sm font-medium text-purple-600 hover:text-purple-800"
+                    >
+                      Read more →
+                    </Link>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-purple-900">
-                  Groceries
-                </h3>
-                <p className="text-gray-700 mb-4">
-                  Strategic shopping tips, coupon guides, and store comparisons
-                  to maximize your grocery budget.
-                </p>
-              </div>
-
-              <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                  <Utensils className="h-7 w-7 text-purple-900" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-purple-900">
-                  Dining
-                </h3>
-                <p className="text-gray-700 mb-4">
-                  Restaurant deals, happy hour specials, and strategies for
-                  eating out without breaking the bank.
-                </p>
-              </div>
-
-              <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                  <Plane className="h-7 w-7 text-purple-900" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-purple-900">
-                  Travel
-                </h3>
-                <p className="text-gray-700 mb-4">
-                  Travel tips, DIY solutions, and booking ahead of time.
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </section>
+
+          <section className="py-16 md:py-24 bg-purple-50 mt-5 shadow-md rounded-xl">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-2 text-center">
+              🏆 Top Students Discounts
+            </h2>
+            <p className="text-center text-grey-200 mb-8">
+              Students, assemble here!
+            </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {studentBargainsPosts?.map((post, index) => (
+                <div
+                  key={post._id}
+                  className="bg-white rounded-lg overflow-hidden shadow-lg text-purple-900"
+                >
+                  <div className="p-5">
+                    <div className="flex items-center mb-2">
+                      <span className="bg-purple-100 text-purple-900 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                        {index + 1}
+                      </span>
+                      <Link
+                      href={`/post/${post.slug.current}`}
+                    >
+                     <h3 className="font-bold text-lg text-purple-600 hover:text-purple-800">{post.title}</h3>
+                    </Link>
+                    </div>
+                    {post.content && (
+                      <div className="text-gray-600 mb-4">
+                        <PortableTextRenderer
+                          content={toCustomPortableText(post.content)}
+                          wordLimit={30}
+                          removeImages={true}
+                        />
+                      </div>
+                    )}
+                    <Link
+                      href={`/post/${post.slug.current}`}
+                      className="mt-4 inline-block text-sm font-medium text-purple-600 hover:text-purple-800"
+                    >
+                      Read more →
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+      <section className="py-16 md:py-24 shadow-md rounded-xl bg-gradient-to-br from-purple-900 to-purple-800 mt-5">
+  <div className="container px-4 md:px-6">
+    <div className="text-center max-w-3xl mx-auto mb-16">
+      <h2 className="text-3xl font-bold mb-6 text-white">Saving Categories</h2>
+      <p className="text-lg text-white">
+        Explore our comprehensive guides and tips across these money-saving categories
+      </p>
+    </div>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+        <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+          <ShoppingCart className="h-7 w-7 text-purple-900" />
+        </div>
+        <h3 className="text-lg font-bold text-purple-900">Groceries</h3>
+      </div>
+
+      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+        <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+          <Utensils className="h-7 w-7 text-purple-900" />
+        </div>
+        <h3 className="text-lg font-bold text-purple-900">Dining</h3>
+      </div>
+
+      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+        <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+          <Plane className="h-7 w-7 text-purple-900" />
+        </div>
+        <h3 className="text-lg font-bold text-purple-900">Travel</h3>
+      </div>
+
+      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+        <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+          <Home className="h-7 w-7 text-purple-900" />
+        </div>
+        <h3 className="text-lg font-bold text-purple-900">Rent & Bills</h3>
+      </div>
+
+      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+        <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+          <Tag className="h-7 w-7 text-purple-900" />
+        </div>
+        <h3 className="text-lg font-bold text-purple-900">Deals</h3>
+      </div>
+
+      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+        <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+          <Heart className="h-7 w-7 text-purple-900" />
+        </div>
+        <h3 className="text-lg font-bold text-purple-900">Health & Fitness</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
 
         <section className="py-16 md:py-24 bg-purple-50 mt-5 shadow-md rounded-xl">
           <div className="container px-4 md:px-6">
@@ -163,7 +262,7 @@ export default function OffersPage() {
                         </p>
                         <Button
                           variant="link"
-                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm hover:text-purple-800 hover:cursor-pointer"
+                          className="h-auto p-0 text-purple-900 text-sm hover:text-purple-800 hover:cursor-pointer"
                           onClick={() => router.push(`/post/bargain`)}
                         >
                           Learn more →
@@ -192,7 +291,7 @@ export default function OffersPage() {
                         </p>
                         <Button
                           variant="link"
-                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm hover:text-purple-800 hover:cursor-pointer"
+                          className="h-auto p-0 text-purple-900  text-sm hover:text-purple-800 hover:cursor-pointer"
                           onClick={() => router.push(`/post/bargain`)}
                         >
                           Learn more →
@@ -219,7 +318,7 @@ export default function OffersPage() {
                         </p>
                         <Button
                           variant="link"
-                          className="h-auto p-0 text-purple-900 hover:text-purple-700 text-sm hover:text-purple-800 hover:cursor-pointer"
+                          className="h-auto p-0 text-purple-900  text-sm hover:text-purple-800 hover:cursor-pointer"
                           onClick={() => router.push(`/post/bargain`)}
                         >
                           Learn more →
@@ -230,55 +329,7 @@ export default function OffersPage() {
                 </div>
               </div>
         </section>
-
-        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-purple-900 text-white mt-5 shadow-md rounded-xl">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-2 text-center">
-              🏆 Top Bargain Picks
-            </h2>
-            <p className="text-center text-purple-200 mb-8">
-              Live in budget, get more while paying less!
-            </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bargainPosts?.map((post, index) => (
-                <div
-                  key={post._id}
-                  className="bg-white rounded-lg overflow-hidden shadow-lg text-purple-900"
-                >
-                  <div className="p-5">
-                    <div className="flex items-center mb-2">
-                      <span className="bg-purple-100 text-purple-900 font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                        {index + 1}
-                      </span>
-                      <Link
-                      href={`/post/${post._id}`}
-                    >
-                     <h3 className="font-bold text-lg text-purple-600 hover:text-purple-800">{post.title}</h3>
-                    </Link>
-                    </div>
-                    {post.content && (
-                      <div className="text-gray-600 mb-4">
-                        <PortableTextRenderer
-                          content={toCustomPortableText(post.content)}
-                          wordLimit={30}
-                          removeImages={true}
-                        />
-                      </div>
-                    )}
-                    <Link
-                      href={`/post/${post._id}`}
-                      className="mt-4 inline-block text-sm font-medium text-purple-600 hover:text-purple-800"
-                    >
-                      Read more →
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-purple-100 mt-5 shadow-md rounded-xl">
+ <section className="py-12 px-4 sm:px-6 lg:px-8 bg-purple-100 mt-5 shadow-md rounded-xl">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-2xl font-bold text-purple-900 mb-4">
               Ready to Discover Amazing Bargains?

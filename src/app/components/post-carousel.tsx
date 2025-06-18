@@ -61,7 +61,7 @@ export function PostCarousels({
   };
 
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-purple-50 relative bg-white text-gray-900 shadow-md rounded-xl">
+    <section className="w-full py-12 md:py-24 lg:py-32 relative bg-white text-gray-900 shadow-md rounded-xl">
       <div className="container px-4 md:px-6 relative">
         {/* Carousel */}
         <div className="relative overflow-hidden">

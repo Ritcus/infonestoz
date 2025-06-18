@@ -4,6 +4,7 @@ export const postsQuery = `*[_type == "post"]{
     slug,
     content,
     publishedAt,
+    subCategory,
     category,
     tags,
     isFeatured,

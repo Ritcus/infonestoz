@@ -5,6 +5,18 @@ export type Author = {
     image?:string;
 }
 
+export const subCategories: string[] = [
+  "Travel",
+  "Finance",
+  "Health",
+  "Review & Recommendations",
+  "Tips & Advice",
+  "Life Hacks",
+  "Food",
+  "Technology",
+  "News",
+];
+
 export type Post = {
   _id: string;
   title: string;
@@ -14,6 +26,7 @@ export type Post = {
   };
   content: PortableTextBlock[];
   category: string;
+  subCategory: string;
   publishedAt: string;
   tags: string[];
   isFeatured: boolean;

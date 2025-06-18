@@ -4,31 +4,33 @@ import { useState, useEffect } from "react";
 import { SortSelector, type SortOption } from "./sort-selector";
 import { Search } from "lucide-react";
 import { Input } from "@/app/components/ui/input";
-import { Post } from "@/types/post";
+import { Post, subCategories } from "@/types/post";
 import { useGlobalData } from "@/lib/globalData";
 import { postsQuery } from "@/lib/queries";
-import { CategoryFilter } from "./category-filter";
 import { PostCard } from "./post-card";
 import { Pagination } from "./pagination";
 import { TagFilter } from "./tag-filter";
 import NewsLetterSection from "./newsletter";
 import Spinner from "./spinner";
+import { SubCategoryFilter } from "./subcategory-filter";
 
 interface PostsListsProps {
   category?: string;
+  subCategory?: string;
   searchKeywords?: string;
   tag?: string;
 }
 
 export default function PostList_Layout({
   category,
+  subCategory,
   searchKeywords,
   tag,
 }: PostsListsProps) {
   const { data: posts, isLoading } = useGlobalData<Post[]>(postsQuery);
 
-  const allCategories = Array.from(
-    new Set(posts?.map((post) => post.category))
+  const allSubCategories = Array.from(
+    new Set(subCategories.map((a) => a))
   );
 
   const allTags = Array.from(
@@ -43,6 +45,9 @@ export default function PostList_Layout({
   const [searchQuery, setSearchQuery] = useState(searchKeywords || "");
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
     category ? [category] : []
+  );
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(() =>
+    subCategory ? [subCategory] : []
   );
   const [selectedTags, setSelectedTags] = useState<string[]>(() =>
     tag ? [tag] : []
@@ -59,8 +64,13 @@ export default function PostList_Layout({
 
     // Filter by selected categories
     const matchesCategory =
-      selectedCategories.length === 0 ||
+      selectedCategories.length === 0 && selectedSubCategories.length !==0 ||
       selectedCategories.includes(post.category);
+
+  
+    const matchesSubCategory = 
+      selectedSubCategories.length ===0 ||
+      selectedSubCategories.includes(post.subCategory.toLowerCase());
 
     // Filter by selected tags
     const matchesTags =
@@ -69,7 +79,7 @@ export default function PostList_Layout({
 
     return tag
       ? matchesSearch && matchesTags
-      : matchesSearch && matchesCategory;
+      :matchesSearch && matchesSubCategory && matchesCategory;
   });
 
   // Sort posts
@@ -104,7 +114,11 @@ export default function PostList_Layout({
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedCategories, tag ? selectedTags : null, sortOption]);
+    if(selectedSubCategories.length > 0) {
+      setSelectedCategories([]);
+    }
+    console.log("categories", selectedCategories);
+  }, [searchQuery, selectedSubCategories, tag ? selectedTags : null, sortOption]);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -152,13 +166,11 @@ export default function PostList_Layout({
                     selectedTags={selectedTags}
                     onTagChange={setSelectedTags}
                   />
-                ) : (
-                  <CategoryFilter
-                    categories={allCategories}
-                    selectedCategories={selectedCategories}
-                    onCategoryChange={setSelectedCategories}
-                  />
-                )}
+                ) :(<SubCategoryFilter
+                    subCategories={allSubCategories}
+                    selectedSubCategories={selectedSubCategories}
+                    onCategoryChange={setSelectedSubCategories}
+                  />)}
               </div>
               <div className="flex items-center gap-2">
                 <p className="text-sm text-muted-foreground whitespace-nowrap">

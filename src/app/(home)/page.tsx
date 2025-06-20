@@ -37,6 +37,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">
+        {/* Featured Post Carousel */}
           { isLoading ? (
                 <div className="flex justify-center py-8">
                 <Spinner />
@@ -47,6 +48,7 @@ export default function Home() {
         />
               )}
 
+        {/* Recent Posts */}
         <section className="w-full py-12 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
@@ -81,6 +83,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        {/* Categories */}
         <section className="w-full py-12 md:py-24 bg-purple-900 text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">

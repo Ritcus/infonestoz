@@ -2,10 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig =  {
   /* config options here */
-  
-  allowedDevOrigins:["http://localhost:3000", // Your dev origin
-      "10.5.0.2",             // Your specific IP
-      "localhost" ],
   reactStrictMode: true,
   images: {
     domains: ['cdn.sanity.io'],

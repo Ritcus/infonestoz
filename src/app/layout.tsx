@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Footer } from "./components/footer";
 import { Navbar } from "./components/navbar";
-import LoadingScreen from "./components/loading-screen";
+//import LoadingScreen from "./components/loading-screen";
 
 export const metadata: Metadata = {
   title: {
@@ -58,7 +58,7 @@ export default function RootLayout({
       <body>
         <Navbar />
         <main className="h-full flex flex-col p-5 bg-gray-50 text-gray-900">
-          <LoadingScreen />
+          {/* <LoadingScreen /> */}
           {children}
         </main>
         <footer>

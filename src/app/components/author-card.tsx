@@ -26,7 +26,7 @@ export function AuthorCard({ author }: AuthorCardProps) {
         <h3 className="text-lg font-bold text-purple-900 mb-1">
           {author.name}
         </h3>
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">@InfoNesOz</p>
+        <p className="text-sm text-gray-600 mb-3 line-clamp-2">@InfoNestOz</p>
       </div>
     </div>
   );
